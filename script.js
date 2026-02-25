@@ -4,7 +4,7 @@ window.onload = function(){
     let b = ''           // Второе число
     let expressionResult = ''  // Результат вычисления
     let selectedOperation = null  // Выбранная операция
-    let isBackgroundChanged = false // Флаг для смены фона
+   
     // Получаем доступ к экрану калькулятора в поле вывода
     const outputElement = document.getElementById("result")
     const calculatorContainer = document.querySelector(".calculator-container")
@@ -112,10 +112,10 @@ window.onload = function(){
         }
     }
     
-    
+    //Смена цвета контейнера
     document.getElementById("btn_op_bgcolor").onclick = function() { 
         const calculatorContainer = document.querySelector(".calculator-container");
-        calculatorContainer.classList.toggle("bg-alternate");
+        calculatorContainer.classList.toggle("bg-alternate"); //classList.toggle() - добавляет класс, если его нет, и удаляет, если он есть.
     }
     // Смена цвета фона экрана
     document.getElementById("btn_op_screen_color").onclick = function() { 
@@ -301,13 +301,13 @@ window.onload = function(){
             // Форматируем результат (не более 2 знаков после запятой)
             let result = pascals.toFixed(2).toString();
         
-        // Сохраняем результат в текущую переменную
-        if (!selectedOperation) {
-            a = result;
-        } else {
-            b = result;
-        }
-        outputElement.innerHTML = result;
+            // Сохраняем результат в текущую переменную
+            if (!selectedOperation) {
+                a = result;
+            } else {
+                b = result;
+            }
+            outputElement.innerHTML = result;
         } 
         // Если ничего не введено, но есть результат вычисления
         else if (expressionResult !== '') {
