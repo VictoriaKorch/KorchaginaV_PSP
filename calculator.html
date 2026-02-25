@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Калькулятор</title>
+  <!-- указываем, что файл style.css содержит таблицу стилей (stylesheet) -->
+  <link rel="stylesheet" href="style.css"> 
+  <script type="text/javascript" src="script.js"></script> 
+</head>
+
+<body>
+   <div class="page-header">
+      <strong><em>Цель:</em></strong> знакомство с инструментами построения<br>
+      пользовательских web-интерфейсов: 
+      <!-- Подсветка HTML и CSS через strong и span с классом -->
+       <strong><span class="highlight-text">HTML</span></strong> и 
+       <strong><span class="highlight-text">CSS</span></strong>.
+    </div>
+  <div class="calculator-container"> <!-- div - это базовый html-контейнер, который может содержать в себе другие html-элементы. -->
+    
+    <!-- блок с экраном калькулятора, где будет выводиться результат вычислений. -->
+    <div id="result" class="result">
+      0
+    </div>
+
+    <!-- блок с кнопками калькулятора. -->
+    <div>
+      <!-- ряд с кнопками памяти (M+, M-, MR, MC) - как основные операции -->
+      <div class="button-row-top">  
+        <button id="btn_op_mplus" class="my-btn primary">M+</button>
+        <button id="btn_op_mminus" class="my-btn primary">M-</button>
+        <button id="btn_op_mrecall" class="my-btn primary">MR</button>
+        <button id="btn_op_mclear" class="my-btn primary">MC</button>
+        <!-- пустая кнопка для сохранения сетки (невидимая) -->
+        <button class="my-btn empty-placeholder"></button>
+      </div>
+
+      <!-- дополнительный ряд с математическими функциями -->
+      <div class="button-row-top">  
+        <button id="btn_op_clear" class="my-btn secondary">C</button>
+        <button id="btn_op_sign" class="my-btn secondary">+/-</button>
+        <button id="btn_op_percent" class="my-btn secondary">%</button>
+        <button id="btn_op_div" class="my-btn primary">/</button>
+        <button id="btn_op_backspace" class="my-btn secondary backspace">⌫</button>
+      </div>
+      <!--горизонтальный ряд из пяти кнопок-->
+     <div class="button-row-digits">
+        <button id="btn_digit_7" class="my-btn">7</button>
+        <button id="btn_digit_8" class="my-btn">8</button>
+        <button id="btn_digit_9" class="my-btn">9</button>
+        <button id="btn_op_mult" class="my-btn primary">x</button>
+        <button id="btn_op_factorial" class="my-btn secondary small-text">x!</button>
+     </div>
+
+
+      <div class="button-row-digits">
+        <button id="btn_digit_4" class="my-btn">4</button>
+        <button id="btn_digit_5" class="my-btn">5</button>
+        <button id="btn_digit_6" class="my-btn">6</button>
+        <button id="btn_op_minus" class="my-btn primary">-</button>
+        <button id="btn_op_square" class="my-btn secondary small-text">x²</button>
+      </div>
+
+      <div class="button-row-digits">
+        <button id="btn_digit_1" class="my-btn">1</button>
+        <button id="btn_digit_2" class="my-btn">2</button>
+        <button id="btn_digit_3" class="my-btn">3</button>
+        <button id="btn_op_plus" class="my-btn primary">+</button>
+        <button id="btn_op_sqrt" class="my-btn secondary small-text">√</button>
+      </div>
+
+      <div class="button-row-bottom">
+        <button id="btn_digit_0" class="my-btn">0</button>
+        <button id="btn_digit_triplezero" class="my-btn small-text">000</button>
+        <button id="btn_digit_dot" class="my-btn">.</button>
+        <button id="btn_op_equal" class="my-btn primary wide">=</button>
+      </div>
+      <!-- ряд с длинной кнопкой конвертера (в том же стиле) -->
+      <div class="button-row-wide">
+        <button id="btn_op_convert" class="my-btn converter secondary wide bottom-text">мм.рт.ст → Па</button>
+      </div>
+      <!-- ряд с широкими кнопками смены фона -->
+      <div class="button-row-wide">
+        <button id="btn_op_bgcolor" class="my-btn secondary wide bottom-text">цвет фона</button>
+        <button id="btn_op_screen_color" class="my-btn secondary wide bottom-text">цвет экрана</button>
+      </div>
+      
+    </div>
+  </div>
+</body>
+</html>
