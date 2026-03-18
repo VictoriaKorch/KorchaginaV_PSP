@@ -4,8 +4,6 @@ export class WeatherCarouselComponent {
         this.currentIndex = 0;
         this.visibleCards = 4;
         this.cardWidth = 220;
-        this.track = null;
-        this.totalCards = 0;
     }
 
     getHTML() {
@@ -15,7 +13,7 @@ export class WeatherCarouselComponent {
                 <!-- Контейнер с карточками -->
                 <div class="overflow-hidden" style="margin: 0 20px;">
                     <div class="d-flex" id="carousel-track" style="gap: 20px; transition: transform 0.3s ease; transform: translateX(0);">
-                        <!-- Карточки будут добавлены через JS -->
+                        <!-- Карточки будут добавляться сюда -->
                     </div>
                 </div>
                 
@@ -36,101 +34,58 @@ export class WeatherCarouselComponent {
         );
     }
 
-    renderWithCards(cardsHTML) {
+    render() {
         // Вставляем HTML карусели
         this.parent.insertAdjacentHTML('beforeend', this.getHTML());
+    }
+
+    initCarousel() {
+        const track = document.getElementById('carousel-track');
+        const prevBtn = document.getElementById('carousel-prev');
+        const nextBtn = document.getElementById('carousel-next');
         
-        // Находим трек
-        this.track = document.getElementById('carousel-track');
-        
-        // Добавляем все карточки в трек
-        cardsHTML.forEach(cardHtml => {
-            this.track.insertAdjacentHTML('beforeend', cardHtml);
-        });
+        if (!track || !prevBtn || !nextBtn) {
+            console.error('Элементы карусели не найдены');
+            return;
+        }
         
         // Устанавливаем ширину каждой карточки
-        for (let card of this.track.children) {
+        for (let card of track.children) {
             card.style.width = '200px';
             card.style.flexShrink = '0';
         }
         
-        // Сохраняем общее количество карточек
-        this.totalCards = this.track.children.length;
-        console.log(`Всего карточек: ${this.totalCards}`);
-        
-        // Инициализируем кнопки
-        this.initButtons();
-    }
-
-    initButtons() {
-        const prevBtn = document.getElementById('carousel-prev');
-        const nextBtn = document.getElementById('carousel-next');
-        
-        if (!prevBtn || !nextBtn) {
-            console.error('Кнопки карусели не найдены');
-            return;
-        }
-        
-        // Добавляем обработчики
-        prevBtn.addEventListener('click', () => this.slide('prev'));
-        nextBtn.addEventListener('click', () => this.slide('next'));
-        
-        // Обновляем состояние кнопок
-        this.updateButtons();
-    }
-
-    slide(direction) {
-        if (!this.track) return;
-        
-        const maxIndex = Math.max(0, this.totalCards - this.visibleCards);
-        console.log(`Текущий индекс: ${this.currentIndex}, Макс индекс: ${maxIndex}`);
-        
-        if (direction === 'prev') {
-            this.currentIndex = Math.max(0, this.currentIndex - 1);
-        } else {
-            this.currentIndex = Math.min(maxIndex, this.currentIndex + 1);
-        }
-        
-        // Сдвигаем трек
-        const offset = this.currentIndex * this.cardWidth;
-        this.track.style.transform = `translateX(-${offset}px)`;
-        
-        // Обновляем состояние кнопок
-        this.updateButtons();
-    }
-    
-    updateButtons() {
-        const prevBtn = document.getElementById('carousel-prev');
-        const nextBtn = document.getElementById('carousel-next');
-        
-        if (!this.track || !prevBtn || !nextBtn) return;
-        
-        const maxIndex = Math.max(0, this.totalCards - this.visibleCards);
+        const totalCards = track.children.length;
+        const maxIndex = Math.max(0, totalCards - this.visibleCards);
         
         // Если карточек меньше или равно видимым, прячем кнопки
-        if (this.totalCards <= this.visibleCards) {
+        if (totalCards <= this.visibleCards) {
             prevBtn.style.display = 'none';
             nextBtn.style.display = 'none';
             return;
         }
         
-        // Показываем кнопки
-        prevBtn.style.display = 'flex';
-        nextBtn.style.display = 'flex';
+        // Добавляем обработчики
+        prevBtn.addEventListener('click', () => {
+            this.currentIndex = Math.max(0, this.currentIndex - 1);
+            track.style.transform = `translateX(-${this.currentIndex * this.cardWidth}px)`;
+            
+            // Обновляем состояние кнопок
+            prevBtn.disabled = this.currentIndex === 0;
+            nextBtn.disabled = this.currentIndex >= maxIndex;
+            prevBtn.style.opacity = this.currentIndex === 0 ? '0.3' : '1';
+            nextBtn.style.opacity = this.currentIndex >= maxIndex ? '0.3' : '1';
+        });
         
-        // Блокируем кнопки, если нельзя листать дальше
-        prevBtn.disabled = this.currentIndex === 0;
-        nextBtn.disabled = this.currentIndex >= maxIndex;
-        
-        prevBtn.style.opacity = this.currentIndex === 0 ? '0.3' : '1';
-        nextBtn.style.opacity = this.currentIndex >= maxIndex ? '0.3' : '1';
-        
-        prevBtn.style.cursor = this.currentIndex === 0 ? 'default' : 'pointer';
-        nextBtn.style.cursor = this.currentIndex >= maxIndex ? 'default' : 'pointer';
-    }
-
-    // Старый метод render оставляем для обратной совместимости
-    render() {
-        this.renderWithCards([]);
+        nextBtn.addEventListener('click', () => {
+            this.currentIndex = Math.min(maxIndex, this.currentIndex + 1);
+            track.style.transform = `translateX(-${this.currentIndex * this.cardWidth}px)`;
+            
+            // Обновляем состояние кнопок
+            prevBtn.disabled = this.currentIndex === 0;
+            nextBtn.disabled = this.currentIndex >= maxIndex;
+            prevBtn.style.opacity = this.currentIndex === 0 ? '0.3' : '1';
+            nextBtn.style.opacity = this.currentIndex >= maxIndex ? '0.3' : '1';
+        });
     }
 }
