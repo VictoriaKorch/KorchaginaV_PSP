@@ -1,4 +1,4 @@
-import {MainPage} from "./pages/main/index.js";
+import { MainPage } from "./pages/main/index.js";
 
 const root = document.getElementById('root');
 
