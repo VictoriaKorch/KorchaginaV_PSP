@@ -132,58 +132,50 @@ export class MainPage {
     }
 
     initCarousel() {
-        const track = document.getElementById('track');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        
-        if (!track || !prevBtn || !nextBtn) return;
-        
-        const cardWidth = 220;
-        const visibleCards = 4;
-        const totalCards = track.children.length;
-        const maxIndex = Math.max(0, totalCards - visibleCards);
-        
-        // Корректируем текущий индекс, если он стал больше максимального
-        if (this.currentIndex > maxIndex) {
-            this.currentIndex = maxIndex;
-        }
-        
-        // Применяем текущую позицию
-        track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
-        
-        if (totalCards <= visibleCards) {
-            prevBtn.style.display = 'none';
-            nextBtn.style.display = 'none';
-            return;
-        } else {
-            prevBtn.style.display = 'flex';
-            nextBtn.style.display = 'flex';
-        }
-        
-        // Удаляем старые обработчики
-        prevBtn.onclick = null;
-        nextBtn.onclick = null;
-        
-        // Добавляем новые обработчики
-        prevBtn.onclick = () => {
-            if (this.currentIndex > 0) {
-                this.currentIndex--;
-                track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
-            }
-        };
-        
-        nextBtn.onclick = () => {
-            if (this.currentIndex < maxIndex) {
-                this.currentIndex++;
-                track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
-            }
-        };
-        
-        // Визуально показываем, активны ли кнопки
-        prevBtn.style.opacity = this.currentIndex === 0 ? '0.3' : '1';
-        nextBtn.style.opacity = this.currentIndex >= maxIndex ? '0.3' : '1';
+    const track = document.getElementById('track');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    
+    if (!track || !prevBtn || !nextBtn) return;
+    
+    const cardWidth = 220;
+    const visibleCards = 4;
+    const totalCards = track.children.length;
+    const maxIndex = Math.max(0, totalCards - visibleCards);
+    
+    if (this.currentIndex > maxIndex) {
+        this.currentIndex = maxIndex;
     }
-
+    
+    track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
+    
+    if (totalCards <= visibleCards) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        return;
+    } else {
+        prevBtn.style.display = 'flex';
+        nextBtn.style.display = 'flex';
+    }
+    
+    // Просто убираем все предыдущие обработчики
+    prevBtn.onclick = null;
+    nextBtn.onclick = null;
+    
+    prevBtn.onclick = () => {
+        if (this.currentIndex > 0) {
+            this.currentIndex--;
+            track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
+        }
+    };
+    
+    nextBtn.onclick = () => {
+        if (this.currentIndex < maxIndex) {
+            this.currentIndex++;
+            track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
+        }
+    };
+}
     initButtons() {
         // Кнопка добавления
         const addBtn = document.getElementById('add-btn');
