@@ -1,0 +1,22 @@
+{
+  "name": "korchagina_psp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VictoriaKorch/KorchaginaV_PSP.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VictoriaKorch/KorchaginaV_PSP/issues"
+  },
+  "homepage": "https://github.com/VictoriaKorch/KorchaginaV_PSP#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  }
+}
