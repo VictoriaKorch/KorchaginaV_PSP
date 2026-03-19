@@ -1,6 +1,6 @@
-import { DayPage } from "../day/index.js";
-import { WeatherCardComponent } from "../../components/weather-card/index.js";
-import { WeatherCarouselComponent } from "../../components/weather-carousel/index.js";
+import { DayPage } from "../day/weather_index.js";
+import { WeatherCardComponent } from "../../components/weather-card/weather_index.js";
+import { WeatherCarouselComponent } from "../../components/weather-carousel/weather_index.js";
 
 export class MainPage {
     constructor(parent) {

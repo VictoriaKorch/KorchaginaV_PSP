@@ -1,5 +1,5 @@
-import { BackButtonComponent } from "../../components/back-button/index.js";
-import { MainPage } from "../main/index.js";
+import { BackButtonComponent } from "../../components/weather_back-button/weather_index.js";
+import { MainPage } from "../weather_main/weather_index.js";
 
 export class DayPage {
     constructor(parent, id) {
