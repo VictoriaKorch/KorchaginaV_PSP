@@ -1,9 +1,11 @@
 import { DayPage } from "../day/index.js";
+import { WeatherCardComponent } from "../../components/weather-card/index.js";
+import { WeatherCarouselComponent } from "../../components/weather-carousel/index.js";
 
 export class MainPage {
     constructor(parent) {
         this.parent = parent;
-        this.currentIndex = 0; // Текущая позиция карусели
+        this.currentIndex = 0;
         this.cardsData = this.getData();
     }
 
@@ -19,62 +21,61 @@ export class MainPage {
         ];
     }
 
-    clickCard(id) {
-        const dayPage = new DayPage(this.parent, id);
+    clickCard(e) {
+        const cardId = e.target.dataset.id;
+        const dayPage = new DayPage(this.parent, cardId);
         dayPage.render();
     }
 
     deleteCard(id) {
-        // Запоминаем, сколько было карточек до удаления
-        const oldLength = this.cardsData.length;
-        
-        // Удаляем карточку
         this.cardsData = this.cardsData.filter(card => card.id !== id);
-        
-        // Если удалили последнюю карточку и были не в начале, корректируем индекс
         const maxIndex = Math.max(0, this.cardsData.length - 4);
         if (this.currentIndex > maxIndex) {
             this.currentIndex = maxIndex;
         }
-        
         this.render();
     }
 
     addCard() {
-        const newId = Math.max(...this.cardsData.map(c => c.id)) + 1;
-        const newCard = {
-            id: newId,
-            day: "Новый",
-            date: "новый день",
-            icon: "⛅",
-            temp: "+5°",
-            feels: "+3°"
-        };
-        this.cardsData.push(newCard);
-        this.render();
-    }
-
+    // Берём первую карточку из массива (любую)
+    const templateCard = this.cardsData[0];
+    
+    if (!templateCard) return; // если нет карточек
+    
+    const newId = Math.max(...this.cardsData.map(c => c.id)) + 1;
+    
+    const newCard = {
+        ...templateCard,        // копируем все поля
+        id: newId               // новый ID
+    };
+    
+    this.cardsData.push(newCard);
+    this.render();
+}
     render() {
         // Генерируем HTML для всех карточек
         let cardsHTML = '';
         this.cardsData.forEach(item => {
-            const dayColor = (item.day === "Сб" || item.day === "Вс") ? '#ff4444' : '#333';
+            const dayClass = (item.day === "Сб" || item.day === "Вс") ? 'weekend-day' : 'weekday-day';
             
             cardsHTML += `
-                <div class="weather-card" data-id="${item.id}" style="width: 200px; flex-shrink: 0; background: white; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;">
-                    <div style="padding: 16px; text-align: center;">
-                        <h5 style="font-weight: 600; font-size: 1.1rem; margin-bottom: 4px; color: ${dayColor};">${item.day}</h5>
-                        <div style="font-size: 0.85rem; color: #999; margin-bottom: 12px;">${item.date}</div>
-                        <div style="font-size: 2.5rem; line-height: 1; margin: 8px 0;">${item.icon}</div>
-                        <div style="font-size: 1.8rem; font-weight: 500; margin: 8px 0; color: #333;">${item.temp}</div>
-                        <div style="font-size: 0.8rem; color: #999; margin-bottom: 12px;">Ощущается: ${item.feels}</div>
-                        <div style="display: flex; gap: 8px; justify-content: center;">
-                            <button class="detail-btn" data-id="${item.id}" 
-                                    style="border-radius: 20px; padding: 4px 12px; font-size: 0.85rem; background: #f8f9fa; color: #333; border: 1px solid #e0e0e0; min-width: 90px; cursor: pointer;">
+                <div class="weather-card shadow-sm" data-id="${item.id}">
+                    <div class="card-body text-center">
+                        <h5 class="${dayClass}">${item.day}</h5>
+                        <div class="weather-date">${item.date}</div>
+                        
+                        <div class="weather-icon">${item.icon}</div>
+                        
+                        <div class="weather-temp">${item.temp}</div>
+                        
+                        <div class="weather-feels">Ощущается: ${item.feels}</div>
+                        
+                        <div class="d-flex gap-2 justify-content-center">
+                            <button class="btn btn-detail" data-id="${item.id}">
                                 Подробнее
                             </button>
-                            <button class="delete-btn" data-id="${item.id}"
-                                    style="border-radius: 50%; width: 32px; height: 32px; padding: 0; background: #f8f9fa; color: #666; border: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 1rem; cursor: pointer;">
+                            
+                            <button class="btn btn-delete" data-id="${item.id}">
                                 🗑️
                             </button>
                         </div>
@@ -83,40 +84,35 @@ export class MainPage {
             `;
         });
 
-        // Полный HTML страницы
         const html = `
-            <div style="min-height: 100vh; background: #f8f9fa; padding: 40px 20px;">
-                <div style="max-width: 1200px; margin: 0 auto;">
-                    <div style="text-align: center; margin-bottom: 40px;">
-                        <h1 style="font-size: 2.8rem; font-weight: 400; color: #000; margin: 0;">
-                            Прогноз погоды
-                        </h1>
-                        <div style="font-size: 1.2rem; color: #333; margin-top: 5px;">
-                            в Москве
-                        </div>
-                        <div style="width: 80px; height: 2px; background: #e0e0e0; margin: 20px auto;"></div>
+            <div class="min-vh-100" style="background: #f8f9fa; padding: 40px 20px;">
+                <div class="container" style="max-width: 1200px;">
+                    <div class="text-center mb-5">
+                        <h1 class="page-title">Прогноз погоды</h1>
+                        <div class="page-subtitle">в Москве</div>
+                        <div class="mx-auto bg-secondary" style="width: 80px; height: 2px; opacity: 0.2; margin-top: 20px;"></div>
                     </div>
                     
-                    <div style="text-align: center; margin-bottom: 20px;">
-                        <button id="add-btn" style="background: white; border: 1px solid #e0e0e0; border-radius: 30px; padding: 8px 20px; color: #333; font-size: 0.95rem; cursor: pointer;">
+                    <div class="text-center mb-4">
+                        <button id="add-btn" class="btn btn-add">
                             + Добавить день
                         </button>
                     </div>
                     
-                    <div style="position: relative; max-width: 940px; margin: 0 auto;">
-                        <button id="prev-btn" style="position: absolute; left: -20px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: white; border: 1px solid #ddd; border-radius: 50%; cursor: pointer; z-index: 10; font-size: 20px; display: flex; align-items: center; justify-content: center;">
-                            ‹
-                        </button>
-                        
-                        <button id="next-btn" style="position: absolute; right: -20px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: white; border: 1px solid #ddd; border-radius: 50%; cursor: pointer; z-index: 10; font-size: 20px; display: flex; align-items: center; justify-content: center;">
-                            ›
-                        </button>
-                        
-                        <div style="overflow: hidden; margin: 0 20px;">
-                            <div id="track" style="display: flex; gap: 20px; transition: transform 0.3s ease; transform: translateX(0px);">
+                    <div class="carousel-container">
+                        <div class="overflow-hidden mx-4">
+                            <div class="carousel-track" id="carousel-track" style="transform: translateX(0px);">
                                 ${cardsHTML}
                             </div>
                         </div>
+                        
+                        <button class="carousel-btn carousel-prev" id="carousel-prev">
+                            ‹
+                        </button>
+                        
+                        <button class="carousel-btn carousel-next" id="carousel-next">
+                            ›
+                        </button>
                     </div>
                 </div>
             </div>
@@ -124,7 +120,6 @@ export class MainPage {
 
         this.parent.innerHTML = html;
         
-        // Сохраняем текущий индекс и применяем его после рендера
         setTimeout(() => {
             this.initCarousel();
             this.initButtons();
@@ -132,68 +127,62 @@ export class MainPage {
     }
 
     initCarousel() {
-    const track = document.getElementById('track');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    
-    if (!track || !prevBtn || !nextBtn) return;
-    
-    const cardWidth = 220;
-    const visibleCards = 4;
-    const totalCards = track.children.length;
-    const maxIndex = Math.max(0, totalCards - visibleCards);
-    
-    if (this.currentIndex > maxIndex) {
-        this.currentIndex = maxIndex;
-    }
-    
-    track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
-    
-    if (totalCards <= visibleCards) {
-        prevBtn.style.display = 'none';
-        nextBtn.style.display = 'none';
-        return;
-    } else {
-        prevBtn.style.display = 'flex';
-        nextBtn.style.display = 'flex';
-    }
-    
-    // Просто убираем все предыдущие обработчики
-    prevBtn.onclick = null;
-    nextBtn.onclick = null;
-    
-    prevBtn.onclick = () => {
-        if (this.currentIndex > 0) {
-            this.currentIndex--;
-            track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
+        const track = document.getElementById('carousel-track');
+        const prevBtn = document.getElementById('carousel-prev');
+        const nextBtn = document.getElementById('carousel-next');
+        
+        if (!track || !prevBtn || !nextBtn) return;
+        
+        const cardWidth = 220;
+        const totalCards = track.children.length;
+        const maxIndex = Math.max(0, totalCards - 4);
+        
+        if (this.currentIndex > maxIndex) {
+            this.currentIndex = maxIndex;
         }
-    };
-    
-    nextBtn.onclick = () => {
-        if (this.currentIndex < maxIndex) {
-            this.currentIndex++;
-            track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
+        
+        track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
+        
+        if (totalCards <= 4) {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+            return;
         }
-    };
-}
+        
+        prevBtn.onclick = null;
+        nextBtn.onclick = null;
+        
+        prevBtn.onclick = () => {
+            if (this.currentIndex > 0) {
+                this.currentIndex--;
+                track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
+            }
+        };
+        
+        nextBtn.onclick = () => {
+            if (this.currentIndex < maxIndex) {
+                this.currentIndex++;
+                track.style.transform = `translateX(-${this.currentIndex * cardWidth}px)`;
+            }
+        };
+    }
+
     initButtons() {
-        // Кнопка добавления
         const addBtn = document.getElementById('add-btn');
         if (addBtn) {
             addBtn.onclick = () => this.addCard();
         }
 
-        // Кнопки подробнее
-        document.querySelectorAll('.detail-btn').forEach(btn => {
+        document.querySelectorAll('.btn-detail').forEach(btn => {
             btn.onclick = (e) => {
                 e.stopPropagation();
                 const id = parseInt(btn.dataset.id);
-                this.clickCard(id);
+                const dayPage = new DayPage(this.parent, id);
+                dayPage.render();
             };
         });
 
-        // Кнопки удаления
-        document.querySelectorAll('.delete-btn').forEach(btn => {
+        document.querySelectorAll('.btn-delete').forEach(btn => {
             btn.onclick = (e) => {
                 e.stopPropagation();
                 const id = parseInt(btn.dataset.id);

@@ -1,0 +1,240 @@
+/* Кастомные стили для проекта прогноза погоды */
+
+/* Цвета для выходных */
+.weekend-day {
+    color: #ff4444 !important;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.weekday-day {
+    color: #333 !important;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+/* Карточка погоды */
+.weather-card {
+    width: 200px;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #f0f0f0;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.weather-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+/* Иконка погоды */
+.weather-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+    margin: 8px 0;
+}
+
+/* Температура */
+.weather-temp {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #333;
+    margin: 8px 0;
+}
+
+/* Ощущается как */
+.weather-feels {
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 12px;
+}
+
+/* Дата в карточке */
+.weather-date {
+    font-size: 0.85rem;
+    color: #999;
+    margin-bottom: 12px;
+}
+
+/* Кнопка подробнее */
+.btn-detail {
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 0.85rem;
+    background: #f8f9fa;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    min-width: 90px;
+}
+
+.btn-detail:hover {
+    background: #e9ecef;
+    color: #333;
+}
+
+/* Кнопка удаления */
+.btn-delete {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: #f8f9fa;
+    color: #666;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.btn-delete:hover {
+    background: #e9ecef;
+    color: #dc3545;
+}
+
+/* Кнопка назад */
+.btn-back {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 30px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.btn-back:hover {
+    background: #f8f9fa;
+}
+
+/* Кнопка добавления */
+.btn-add {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 30px;
+    padding: 8px 20px;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.btn-add:hover {
+    background: #f8f9fa;
+}
+
+/* Заголовок страницы */
+.page-title {
+    font-size: 2.8rem;
+    font-weight: 400;
+    color: #000;
+    margin: 0;
+}
+
+.page-subtitle {
+    font-size: 1.2rem;
+    color: #333;
+    margin-top: 5px;
+}
+
+/* Карусель */
+.carousel-container {
+    position: relative;
+    max-width: 940px;
+    margin: 0 auto;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.3s ease;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-btn:hover {
+    background: #f8f9fa;
+}
+
+.carousel-prev {
+    left: -20px;
+}
+
+.carousel-next {
+    right: -20px;
+}
+
+/* Страница дня */
+.day-page {
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding: 40px 20px;
+}
+
+.day-card {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+}
+
+.day-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.day-date {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.day-icon {
+    font-size: 6rem;
+    line-height: 1;
+}
+
+.day-temp {
+    font-size: 3rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.day-feels {
+    color: #666;
+}
+
+.day-detail-item {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.day-detail-label {
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.day-detail-value {
+    font-weight: 600;
+}

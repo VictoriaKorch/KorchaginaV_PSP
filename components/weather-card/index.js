@@ -4,32 +4,27 @@ export class WeatherCardComponent {
     }
 
     getHTML(data) {
-        // Только цвет для выходных
-        const dayColor = (data.day === "Сб" || data.day === "Вс") ? '#ff4444' : '#333';
+        const dayClass = (data.day === "Сб" || data.day === "Вс") ? 'weekend-day' : 'weekday-day';
         
         return (
             `
-            <div class="weather-card" style="width: 200px; margin: 0; background: white; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; position: relative;">
-                <div class="card-body text-center" style="padding: 16px;">
-                    <h5 class="card-title" style="font-weight: 600; font-size: 1.1rem; margin-bottom: 4px; color: ${dayColor};">${data.day}</h5>
-                    <div style="font-size: 0.85rem; color: #999; margin-bottom: 12px;">${data.date}</div>
+            <div class="weather-card shadow-sm" data-id="${data.id}">
+                <div class="card-body text-center">
+                    <h5 class="${dayClass}">${data.day}</h5>
+                    <div class="weather-date">${data.date}</div>
                     
-                    <div style="font-size: 2.5rem; line-height: 1; margin: 8px 0;">${data.icon}</div>
+                    <div class="weather-icon">${data.icon}</div>
                     
-                    <div style="font-size: 1.8rem; font-weight: 500; margin: 8px 0; color: #333;">${data.temp}</div>
+                    <div class="weather-temp">${data.temp}</div>
                     
-                    <div style="font-size: 0.8rem; color: #999; margin-bottom: 12px;">Ощущается: ${data.feelsLike}</div>
+                    <div class="weather-feels">Ощущается: ${data.feels}</div>
                     
-                    <div style="display: flex; gap: 8px; justify-content: center;">
-                        <!-- Кнопка подробнее -->
-                        <button class="btn" id="click-card-${data.id}" data-id="${data.id}" 
-                                style="border-radius: 20px; padding: 4px 12px; font-size: 0.85rem; background: #f8f9fa; color: #333; border: 1px solid #e0e0e0; min-width: 90px;">
+                    <div class="d-flex gap-2 justify-content-center">
+                        <button class="btn btn-detail" data-id="${data.id}">
                             Подробнее
                         </button>
                         
-                        <!-- Кнопка удаления (урна) -->
-                        <button class="btn delete-card" data-id="${data.id}" 
-                                style="border-radius: 50%; width: 32px; height: 32px; padding: 0; background: #f8f9fa; color: #666; border: 1px solid #e0e0e0; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
+                        <button class="btn btn-delete" data-id="${data.id}">
                             🗑️
                         </button>
                     </div>
@@ -40,18 +35,16 @@ export class WeatherCardComponent {
     }
 
     addListeners(data, listener, deleteListener) {
-        // Обработчик для кнопки "Подробнее"
         setTimeout(() => {
-            const detailButton = document.getElementById(`click-card-${data.id}`);
+            const detailButton = document.querySelector(`.btn-detail[data-id="${data.id}"]`);
             if (detailButton) {
                 detailButton.addEventListener("click", listener);
             }
             
-            // Обработчик для кнопки удаления
-            const deleteButton = document.querySelector(`.delete-card[data-id="${data.id}"]`);
+            const deleteButton = document.querySelector(`.btn-delete[data-id="${data.id}"]`);
             if (deleteButton && deleteListener) {
                 deleteButton.addEventListener("click", (e) => {
-                    e.stopPropagation(); // Предотвращаем всплытие события
+                    e.stopPropagation();
                     deleteListener(data.id);
                 });
             }
