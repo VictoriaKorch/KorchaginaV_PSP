@@ -1,5 +1,7 @@
 import { BackButtonComponent } from "../../components/weather_back-button/weather_index.js";
 import { MainPage } from "../weather_main/weather_index.js";
+import { Weather3DPreview } from "../../components/weather-3d-preview/weather_index.js";
+import { Weather3DPage } from "../weather_3d/weather_index.js";
 
 export class DayPage {
     constructor(parent, id) {
@@ -112,9 +114,9 @@ export class DayPage {
     getHTML() {
         return (
             `
-            <div id="day-page" class="day-page">
-                <div class="container" style="max-width: 600px;">
-                    <div id="back-button-container" class="mb-4"></div>
+            <div id="day-page" class="day-page" style="min-height: 100vh; background: #f8f9fa; padding: 40px 20px;">
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <div id="back-button-container" style="margin-bottom: 20px;"></div>
                     <div id="day-content"></div>
                 </div>
             </div>
@@ -133,56 +135,68 @@ export class DayPage {
         const html = this.getHTML();
         this.parent.insertAdjacentHTML('beforeend', html);
         
+        // Кнопка назад
         const backButtonContainer = document.getElementById('back-button-container');
         const backButton = new BackButtonComponent(backButtonContainer);
         backButton.render(this.clickBack.bind(this));
         
+        // Данные дня
         const data = this.getData();
         const dayContent = document.getElementById('day-content');
         
+        // Проверяем, выходной ли день
         const isWeekend = (data.day === "Суббота" || data.day === "Воскресенье");
         const dayColor = isWeekend ? '#ff4444' : '#333';
         
+        // Формируем HTML страницы дня, включая контейнер для 3D-превью
         const dayHTML = `
-            <div class="day-card">
-                <h2 class="day-title" style="color: ${dayColor}">${data.day}</h2>
-                <div class="day-date">${data.date}</div>
+            <div class="day-card" style="background: white; border-radius: 24px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #f0f0f0;">
+                <h2 style="color: ${dayColor}; font-weight: 600; margin-bottom: 5px;">${data.day}</h2>
+                <div style="color: #666; margin-bottom: 20px;">${data.date}</div>
                 
-                <div class="text-center mb-4">
-                    <div class="day-icon">${data.icon}</div>
-                    <div class="day-temp">${data.temp}</div>
-                    <div class="day-feels">Ощущается как ${data.feelsLike}</div>
-                </div>
+                <!-- Контейнер для 3D-превью -->
+                <div id="3d-preview-container" style="width: 100%; display: flex; justify-content: center; margin: 20px 0;"></div>
                 
-                <div class="row g-3">
-                    <div class="col-6">
-                        <div class="day-detail-item">
-                            <div class="day-detail-label">Ветер</div>
-                            <div class="day-detail-value">${data.wind}</div>
-                        </div>
+                <div style="font-size: 3rem; font-weight: 600; color: #333; text-align: center;">${data.temp}</div>
+                <div style="color: #666; text-align: center;">Ощущается как ${data.feelsLike}</div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px;">
+                    <div style="background: #f8f9fa; padding: 10px; border-radius: 10px;">
+                        <div style="color: #999; font-size: 0.9rem;">Ветер</div>
+                        <div style="font-weight: 600;">${data.wind}</div>
                     </div>
-                    <div class="col-6">
-                        <div class="day-detail-item">
-                            <div class="day-detail-label">Влажность</div>
-                            <div class="day-detail-value">${data.humidity}</div>
-                        </div>
+                    <div style="background: #f8f9fa; padding: 10px; border-radius: 10px;">
+                        <div style="color: #999; font-size: 0.9rem;">Влажность</div>
+                        <div style="font-weight: 600;">${data.humidity}</div>
                     </div>
-                    <div class="col-6">
-                        <div class="day-detail-item">
-                            <div class="day-detail-label">Давление</div>
-                            <div class="day-detail-value">${data.pressure}</div>
-                        </div>
+                    <div style="background: #f8f9fa; padding: 10px; border-radius: 10px;">
+                        <div style="color: #999; font-size: 0.9rem;">Давление</div>
+                        <div style="font-weight: 600;">${data.pressure}</div>
                     </div>
-                    <div class="col-6">
-                        <div class="day-detail-item">
-                            <div class="day-detail-label">Восход/Закат</div>
-                            <div class="day-detail-value">${data.sunrise} / ${data.sunset}</div>
-                        </div>
+                    <div style="background: #f8f9fa; padding: 10px; border-radius: 10px;">
+                        <div style="color: #999; font-size: 0.9rem;">Восход/Закат</div>
+                        <div style="font-weight: 600;">${data.sunrise} / ${data.sunset}</div>
                     </div>
                 </div>
             </div>
         `;
         
         dayContent.insertAdjacentHTML('beforeend', dayHTML);
+        
+        // Инициализация 3D-превью после вставки HTML
+        const previewContainer = document.getElementById('3d-preview-container');
+        if (previewContainer) {
+            // Создаём компонент превью, передаём тип погоды (data.weather)
+            const preview = new Weather3DPreview(previewContainer, data.weather, 250, 250);
+            preview.render();
+            
+            // Добавляем обработчик клика на canvas для перехода к полному 3D-просмотру
+            if (preview.canvas) {
+                preview.canvas.addEventListener('click', () => {
+                    const view3DPage = new Weather3DPage(this.parent, this.id);
+                    view3DPage.render();
+                });
+            }
+        }
     }
 }

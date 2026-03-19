@@ -238,3 +238,8 @@
 .day-detail-value {
     font-weight: 600;
 }
+.weather-3d-preview canvas {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    cursor: pointer;
+}
