@@ -18,7 +18,7 @@ export class MathOperationsComponent {
                                 <h5 class="card-title">Проверка палиндрома</h5>
                                 <p class="card-text">Введите название города, дату или любую строку:</p>
                                 <input type="text" id="palindrome-input" class="form-control mb-2" placeholder="Например: Шалаш">
-                                <button id="check-palindrome" class="btn btn-primary">Проверить</button>
+                                <button id="check-palindrome" class="btn btn-secondary">Проверить</button>
                                 <div id="palindrome-result" class="mt-2 alert alert-info d-none"></div>
                             </div>
                         </div>
@@ -33,7 +33,7 @@ export class MathOperationsComponent {
                                 Пример: <code>[[7,5,3],[2,6,4],[8,1,9]]</code></p>
                                 <textarea id="matrix-input" rows="4" class="form-control mb-2" 
                                     placeholder='[[7,5,3],[2,6,4],[8,1,9]]'></textarea>
-                                <button id="calculate-diagonals" class="btn btn-primary">Вычислить общую сумму</button>
+                                <button id="calculate-diagonals" class="btn btn-secondary">Вычислить общую сумму</button>
                                 <div id="matrix-result" class="mt-2 alert alert-info d-none"></div>
                             </div>
                         </div>
