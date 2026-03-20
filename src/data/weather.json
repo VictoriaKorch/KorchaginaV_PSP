@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "city": "Москва",
+    "date": "2026-03-21",
+    "temperature": 12,
+    "humidity": 65,
+    "pressure": 1012,
+    "description": "Солнечно"
+  },
+  {
+    "id": 2,
+    "city": "Санкт-Петербург",
+    "date": "2026-03-21",
+    "temperature": 15,
+    "humidity": 80,
+    "pressure": 1008,
+    "description": "Солнечно, ветер"
+  },
+  {
+    "id": 3,
+    "city": "Москва",
+    "date": "2026-03-22",
+    "temperature": 10,
+    "humidity": 70,
+    "pressure": 1010,
+    "description": "Облачно"
+  }
+]
