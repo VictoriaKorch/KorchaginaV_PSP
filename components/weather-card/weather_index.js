@@ -15,7 +15,7 @@ export class WeatherCardComponent {
                     
                     <div class="weather-icon">${data.icon}</div>
                     
-                    <div class="weather-temp">${data.temp}</div>
+                    <div class="weather-temp">${data.tempDisplay}</div>
                     
                     <div class="weather-feels">Ощущается: ${data.feels}</div>
                     

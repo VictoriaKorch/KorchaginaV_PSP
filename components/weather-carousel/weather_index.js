@@ -59,6 +59,7 @@ export class WeatherCarouselComponent {
         this.cards.push({ element: cardElement, id: cardData.id });
 
         this.updateCarousel();
+        this.initCarousel();  // перепривязываем кнопки
     }
 
     removeCard(id) {
@@ -74,6 +75,7 @@ export class WeatherCarouselComponent {
         }
 
         this.updateCarousel();
+        this.initCarousel();  // перепривязываем кнопки
         return true;
     }
 
@@ -97,5 +99,23 @@ export class WeatherCarouselComponent {
         };
 
         this.updateCarousel();
+    }
+    setCards(cardsData, clickListener, deleteListener) {
+        // очищаем трек
+        this.track.innerHTML = '';
+        this.cards = [];
+
+        // создаём карточки
+        cardsData.forEach(item => {
+            const cardComponent = new WeatherCardComponent(this.track);
+            cardComponent.render(item, clickListener, deleteListener);
+            const cardElement = this.track.lastElementChild;
+            this.cards.push({ element: cardElement, id: item.id });
+        });
+
+        // сбрасываем индекс
+        this.currentIndex = 0;
+        this.updateCarousel();
+        this.initCarousel();  // перепривязываем кнопки
     }
 }
