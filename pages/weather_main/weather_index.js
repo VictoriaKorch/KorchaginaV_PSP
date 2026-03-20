@@ -1,7 +1,7 @@
 import { DayPage } from "../day/weather_index.js";
 import { WeatherCarouselComponent } from "../../components/weather-carousel/weather_index.js";
 import { TemperatureFilterComponent } from "../../components/weather_temperature-filter/weather_index.js";
-
+import { MathOperationsComponent } from '../../components/weather_math-operations/weather_index.js';
 export class MainPage {
     constructor(parent) {
         this.parent = parent;
@@ -78,25 +78,26 @@ export class MainPage {
     render() {
         this.parent.innerHTML = '';
 
-        const wrapper = document.createElement('div');
-        wrapper.className = 'min-vh-100';
-        wrapper.style.background = '#f8f9fa';
-        wrapper.style.padding = '40px 20px';
-        wrapper.innerHTML = `
-            <div class="container" style="max-width: 1200px;">
-                <div class="text-center mb-5">
-                    <h1 class="page-title">Прогноз погоды</h1>
-                    <div class="page-subtitle">в Москве</div>
-                    <div class="mx-auto bg-secondary" style="width: 80px; height: 2px; opacity: 0.2; margin-top: 20px;"></div>
-                </div>
-                <div id="filter-container"></div>
-                <div class="text-center mb-4">
-                    <button id="add-btn" class="btn btn-add">+ Добавить день</button>
-                </div>
-                <div id="carousel-container"></div>
+    const wrapper = document.createElement('div');
+    wrapper.className = 'min-vh-100';
+    wrapper.style.background = '#f8f9fa';
+    wrapper.style.padding = '40px 20px';
+    wrapper.innerHTML = `
+        <div class="container" style="max-width: 1200px;">
+            <div class="text-center mb-5">
+                <h1 class="page-title">Прогноз погоды</h1>
+                <div class="page-subtitle">в Москве</div>
+                <div class="mx-auto bg-secondary" style="width: 80px; height: 2px; opacity: 0.2; margin-top: 20px;"></div>
             </div>
-        `;
-        this.parent.appendChild(wrapper);
+            <div id="filter-container"></div>
+            <div class="text-center mb-4">
+                <button id="add-btn" class="btn btn-add">+ Добавить день</button>
+            </div>
+            <div id="carousel-container"></div>
+            <div id="math-operations-container" class="mt-5"></div>
+        </div>
+    `;
+    this.parent.appendChild(wrapper);
 
         const filterContainer = document.getElementById('filter-container');
         this.filterComponent = new TemperatureFilterComponent(filterContainer);
@@ -119,5 +120,9 @@ export class MainPage {
         if (addBtn) {
             addBtn.onclick = () => this.addCard();
         }
+        // Math Operations Component
+    const mathContainer = document.getElementById('math-operations-container');
+    const mathOps = new MathOperationsComponent(mathContainer);
+    mathOps.render();
     }
 }
