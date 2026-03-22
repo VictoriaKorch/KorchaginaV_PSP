@@ -25,5 +25,14 @@
     "humidity": 70,
     "pressure": 1010,
     "description": "Облачно"
+  },
+  {
+    "id": 4,
+    "city": "Казань",
+    "date": "2026-03-22",
+    "temperature": 14,
+    "humidity": 55,
+    "pressure": 1015,
+    "description": "Солнечно"
   }
 ]
