@@ -243,3 +243,17 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     cursor: pointer;
 }
+.btn-light {
+    transition: background-color 0.2s, transform 0.1s;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #333;
+}
+.btn-light:hover {
+    background-color: #e9ecef;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.btn-light:active {
+    transform: translateY(0);
+}
