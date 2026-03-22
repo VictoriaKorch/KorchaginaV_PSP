@@ -1,0 +1,131 @@
+/* опишем базовый стиль кнопки калькулятора */
+.weather-btn { 
+  margin-right: 5px;
+  margin-top: 5px;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  border: none;
+  background: #2C2C2C;
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 400;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.1s ease;
+} 
+
+.weather-btn:hover {
+  background: #3D3D3D;
+}
+
+.weather-btn:active {
+  filter: brightness(110%);
+}
+
+.weather-btn.weather-wide { 
+  width: 128px;
+  border-radius: 34px;   
+}
+
+.weather-btn.weather-wide.weather-bottom-text {
+  font-size: 1.2rem;
+  padding: 0 5px;
+  white-space: nowrap;
+}
+
+.weather-result { 
+  width: 330px;
+  height: 80px;
+  margin-bottom: 20px;
+  padding-right: 15px;
+  padding-left: 15px;
+  background: #1C1C1C;
+  border-radius: 25px;
+  text-align: right;
+  color: #ffffff;
+  font-size: 2.5rem;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  box-sizing: border-box;
+}
+
+.weather-calculator-container {
+  background-color: #000000;
+  border-radius: 40px;
+  padding: 25px;
+  width: fit-content;
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: background-color 0.3s ease;
+}
+
+.weather-calculator-container.weather-bg-alternate {
+  background-color: #4a4e51;
+}
+
+.weather-result.weather-bg-alternate {
+  background-color: #3572c18c;
+}
+
+.weather-calculator-container > div > div {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0;
+}
+
+.weather-button-row {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.weather-button-row-wide {
+  display: flex;
+  margin-top: 10px;
+  gap: 10px;
+  justify-content: center;
+}
+
+.weather-btn.weather-backspace {
+  font-size: 2rem;
+}
+
+.weather-btn.weather-special {
+  font-size: 1.5rem;
+}
+
+.weather-page-header {
+  color: #000000;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.weather-highlight-text {
+  color: #7FAAFF;
+  font-weight: bold;
+}
+
+.weather-empty-placeholder {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.weather-btn.weather-converter {
+  width: 100%;
+  height: 50px;
+  border-radius: 25px;
+  margin-right: 0;
+  letter-spacing: 1px;
+  font-weight: 500;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.weather-btn.weather-converter:active {
+  filter: brightness(115%);
+}

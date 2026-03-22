@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Калькулятор</title>
+  <link rel="stylesheet" href="weather_style.css"> 
+  <script type="text/javascript" src="weather_script.js"></script> 
+</head>
+
+<body>
+   <div class="weather-page-header">
+      <strong><em>Цель:</em></strong> знакомство с инструментами построения<br>
+      пользовательских web-интерфейсов: 
+       <strong><span class="weather-highlight-text">HTML</span></strong> и 
+       <strong><span class="weather-highlight-text">CSS</span></strong>.
+    </div>
+  <div class="weather-calculator-container">
+    
+    <div id="result" class="weather-result">
+      0
+    </div>
+
+    <div>
+      <div class="weather-button-row">  
+        <button id="btn_op_mplus" class="weather-btn">M+</button>
+        <button id="btn_op_mminus" class="weather-btn">M-</button>
+        <button id="btn_op_mrecall" class="weather-btn">MR</button>
+        <button id="btn_op_mclear" class="weather-btn">MC</button>
+        <button class="weather-btn weather-empty-placeholder"></button>
+      </div>
+
+      <div class="weather-button-row">  
+        <button id="btn_op_clear" class="weather-btn">C</button>
+        <button id="btn_op_sign" class="weather-btn">+/-</button>
+        <button id="btn_op_percent" class="weather-btn">%</button>
+        <button id="btn_op_div" class="weather-btn">/</button>
+        <button id="btn_op_backspace" class="weather-btn weather-backspace">⌫</button>
+      </div>
+
+     <div class="weather-button-row">
+        <button id="btn_digit_7" class="weather-btn">7</button>
+        <button id="btn_digit_8" class="weather-btn">8</button>
+        <button id="btn_digit_9" class="weather-btn">9</button>
+        <button id="btn_op_mult" class="weather-btn">x</button>
+        <button id="btn_op_factorial" class="weather-btn weather-special">x!</button>
+     </div>
+
+      <div class="weather-button-row">
+        <button id="btn_digit_4" class="weather-btn">4</button>
+        <button id="btn_digit_5" class="weather-btn">5</button>
+        <button id="btn_digit_6" class="weather-btn">6</button>
+        <button id="btn_op_minus" class="weather-btn">-</button>
+        <button id="btn_op_square" class="weather-btn weather-special">x²</button>
+      </div>
+
+      <div class="weather-button-row">
+        <button id="btn_digit_1" class="weather-btn">1</button>
+        <button id="btn_digit_2" class="weather-btn">2</button>
+        <button id="btn_digit_3" class="weather-btn">3</button>
+        <button id="btn_op_plus" class="weather-btn">+</button>
+        <button id="btn_op_sqrt" class="weather-btn weather-special">√</button>
+      </div>
+
+      <div class="weather-button-row">
+        <button id="btn_digit_0" class="weather-btn">0</button>
+        <button id="btn_digit_triplezero" class="weather-btn weather-special">000</button>
+        <button id="btn_digit_dot" class="weather-btn">.</button>
+        <button id="btn_op_equal" class="weather-btn weather-wide">=</button>
+      </div>
+
+      <div class="weather-button-row-wide">
+        <button id="btn_op_convert" class="weather-btn weather-converter weather-wide weather-bottom-text">☁️ мм.рт.ст → Па</button>
+      </div>
+
+      <div class="weather-button-row-wide">
+        <button id="btn_op_bgcolor" class="weather-btn weather-wide weather-bottom-text">цвет фона</button>
+        <button id="btn_op_screen_color" class="weather-btn weather-wide weather-bottom-text">цвет экрана</button>
+      </div>
+      
+    </div>
+  </div>
+</body>
+</html>

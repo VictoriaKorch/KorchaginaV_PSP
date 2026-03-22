@@ -4,10 +4,11 @@ window.onload = function(){
     let b = ''           // Второе число
     let expressionResult = ''  // Результат вычисления
     let selectedOperation = null  // Выбранная операция
+    let weatherAccumulatedValue = 0  // Накопленное значение для памяти
    
     // Получаем доступ к экрану калькулятора в поле вывода
     const outputElement = document.getElementById("result")
-    const calculatorContainer = document.querySelector(".calculator-container")
+    const calculatorContainer = document.querySelector(".weather-calculator-container")
 
     // Получаем все кнопки с цифрами (их id начинаются с "btn_digit_")
     const digitButtons = document.querySelectorAll('[id ^= "btn_digit_"]')
@@ -18,9 +19,6 @@ window.onload = function(){
         if (!selectedOperation) {
             // Проверяем, не пытаемся ли мы добавить вторую точку
             if ((digit != '.') || (digit == '.' && !a.includes(digit))) { 
-                // здесь у нас происходит складывание сохраненного уже числа и нажатой цифры. Оба поля string, поэтому
-                // каждый раз цифра записывается в конец строки. Например: a = '14', digit = '5', 
-                // a += digit - это короткая запись a = a + digit - поэтомоу после этой операции a = '145'
                 a += digit;
             }
             outputElement.innerHTML = a;
@@ -33,16 +31,15 @@ window.onload = function(){
             }
         }
     }
-    // Настраиваем обработчики для цифровых кнопок - для каждой кнопки с цифрой и точкой вызываем выше написанную функцию по формированию числа
+    // Настраиваем обработчики для цифровых кнопок
     digitButtons.forEach(button => {
         button.onclick = function() {
-            // берем текст, написанный на кнопке - он и является цифрой
             const digitValue = button.innerHTML;
             onDigitButtonClicked(digitValue);
         }
     });
 
-    // Настраиваем обработчики для кнопок операций - сохраняем выбранную операцию в ранее созданную переменную selectedOperation
+    // Настраиваем обработчики для кнопок операций
     document.getElementById("btn_op_mult").onclick = function() { 
         if (a === '') return;
         selectedOperation = 'x';
@@ -59,7 +56,7 @@ window.onload = function(){
         if (a === '') return;
         selectedOperation = '/';
     }
-    // Очищаем все значения при нажатии на кнопку C (вешаем обработчик события click на кнопку С)
+    
     document.getElementById("btn_op_clear").onclick = function() { 
         a = ''
         b = ''
@@ -67,7 +64,7 @@ window.onload = function(){
         expressionResult = ''
         outputElement.innerHTML = 0
     }
-    // Операция смены знака +/-
+    
     document.getElementById("btn_op_sign").onclick = function() { 
         if (!selectedOperation) {
             if (a !== '') {
@@ -82,7 +79,6 @@ window.onload = function(){
         }
     }
     
-    // Операция вычисления процента %
     document.getElementById("btn_op_percent").onclick = function() { 
         if (!selectedOperation) {
             if (a !== '') {
@@ -97,7 +93,6 @@ window.onload = function(){
         }
     }
     
-    // Кнопка стирания последнего символа (Backspace)
     document.getElementById("btn_op_backspace").onclick = function() { 
         if (!selectedOperation) {
             if (a.length > 0) {
@@ -112,17 +107,16 @@ window.onload = function(){
         }
     }
     
-    //Смена цвета контейнера
     document.getElementById("btn_op_bgcolor").onclick = function() { 
-        const calculatorContainer = document.querySelector(".calculator-container");
-        calculatorContainer.classList.toggle("bg-alternate"); //classList.toggle() - добавляет класс, если его нет, и удаляет, если он есть.
+        const calculatorContainer = document.querySelector(".weather-calculator-container");
+        calculatorContainer.classList.toggle("weather-bg-alternate");
     }
-    // Смена цвета фона экрана
+    
     document.getElementById("btn_op_screen_color").onclick = function() { 
         const screenElement = document.getElementById("result");
-        screenElement.classList.toggle("bg-alternate");
+        screenElement.classList.toggle("weather-bg-alternate");
     }
-    // Вычисление квадратного корня √
+    
     document.getElementById("btn_op_sqrt").onclick = function() { 
         let currentValue;
         if (!selectedOperation) {
@@ -145,7 +139,6 @@ window.onload = function(){
         }
     }
     
-    // Возведение в квадрат x²
     document.getElementById("btn_op_square").onclick = function() { 
         let currentValue;
         if (!selectedOperation) {
@@ -166,7 +159,6 @@ window.onload = function(){
         }
     }
     
-    // Вычисление факториала x!
     document.getElementById("btn_op_factorial").onclick = function() { 
         let currentValue;
         if (!selectedOperation) {
@@ -193,7 +185,6 @@ window.onload = function(){
         }
     }
     
-    // Кнопка добавления трех нулей (000)
     document.getElementById("btn_digit_triplezero").onclick = function() { 
         if (!selectedOperation) {
             if (a === '') a = '0';
@@ -205,103 +196,84 @@ window.onload = function(){
             outputElement.innerHTML = b;
         }
     }
-    // НАКАПЛИВАЕМОЕ СЛОЖЕНИЕ (M+)
+    
     document.getElementById("btn_op_mplus").onclick = function() {
         let currentValue;
         
-        // Определяем текущее значение на экране
         if (!selectedOperation) {
             currentValue = a;
         } else {
             currentValue = b;
         }
         
-        // Если есть значение, добавляем его к накопленному
         if (currentValue !== '') {
-            accumulatedValue += parseFloat(currentValue);
+            weatherAccumulatedValue += parseFloat(currentValue);
         } else if (expressionResult !== '') {
-            // Если нет текущего ввода, но есть результат вычисления
-            accumulatedValue += parseFloat(expressionResult);
+            weatherAccumulatedValue += parseFloat(expressionResult);
         } else if (a !== '') {
-            accumulatedValue += parseFloat(a);
+            weatherAccumulatedValue += parseFloat(a);
         }
         
-        // Показываем накопленное значение на экране
-        outputElement.innerHTML = accumulatedValue.toString();
+        outputElement.innerHTML = weatherAccumulatedValue.toString();
         
-        // Сбрасываем операцию, чтобы можно было продолжать ввод
-        a = accumulatedValue.toString();
+        a = weatherAccumulatedValue.toString();
         b = '';
         selectedOperation = null;
     }
     
-    // НАКАПЛИВАЕМОЕ ВЫЧИТАНИЕ (M-)
     document.getElementById("btn_op_mminus").onclick = function() {
         let currentValue;
         
-        // Определяем текущее значение на экране
         if (!selectedOperation) {
             currentValue = a;
         } else {
             currentValue = b;
         }
         
-        // Если есть значение, вычитаем его из накопленного
         if (currentValue !== '') {
-            accumulatedValue -= parseFloat(currentValue);
+            weatherAccumulatedValue -= parseFloat(currentValue);
         } else if (expressionResult !== '') {
-            // Если нет текущего ввода, но есть результат вычисления
-            accumulatedValue -= parseFloat(expressionResult);
+            weatherAccumulatedValue -= parseFloat(expressionResult);
         } else if (a !== '') {
-            accumulatedValue -= parseFloat(a);
+            weatherAccumulatedValue -= parseFloat(a);
         }
         
-        // Показываем накопленное значение на экране
-        outputElement.innerHTML = accumulatedValue.toString();
+        outputElement.innerHTML = weatherAccumulatedValue.toString();
         
-        // Сбрасываем операцию, чтобы можно было продолжать ввод
-        a = accumulatedValue.toString();
+        a = weatherAccumulatedValue.toString();
         b = '';
         selectedOperation = null;
     }
     
-    // ОЧИСТКА НАКОПЛЕННОГО ЗНАЧЕНИЯ (MC)
     document.getElementById("btn_op_mclear").onclick = function() {
-        accumulatedValue = 0;
+        weatherAccumulatedValue = 0;
         outputElement.innerHTML = a || '0';
     }
     
-    // ВЫЗОВ НАКОПЛЕННОГО ЗНАЧЕНИЯ (MR)
     document.getElementById("btn_op_mrecall").onclick = function() {
         if (!selectedOperation) {
-            a = accumulatedValue.toString();
+            a = weatherAccumulatedValue.toString();
             outputElement.innerHTML = a;
         } else {
-            b = accumulatedValue.toString();
+            b = weatherAccumulatedValue.toString();
             outputElement.innerHTML = b;
         }
     }
-    // Конвертер мм.рт.ст в Паскали
+    
     document.getElementById("btn_op_convert").onclick = function() {
         let currentValue;
     
-        // Определяем текущее значение на экране
         if (!selectedOperation) {
             currentValue = a;
         } else {
             currentValue = b;
         }
     
-        // Если есть значение на экране, конвертируем его
         if (currentValue !== '') {
             let mmhg = parseFloat(currentValue);
-            // 1 мм.рт.ст = 133.322 Па
             let pascals = mmhg * 133.322;
-        
-            // Форматируем результат (не более 2 знаков после запятой)
             let result = pascals.toFixed(2).toString();
         
-            // Сохраняем результат в текущую переменную
             if (!selectedOperation) {
                 a = result;
             } else {
@@ -309,7 +281,6 @@ window.onload = function(){
             }
             outputElement.innerHTML = result;
         } 
-        // Если ничего не введено, но есть результат вычисления
         else if (expressionResult !== '') {
             let mmhg = parseFloat(expressionResult);
             let pascals = mmhg * 133.322;
@@ -318,7 +289,6 @@ window.onload = function(){
             selectedOperation = null;
             outputElement.innerHTML = a;
         }
-        // Если есть сохраненное значение в a
         else if (a !== '') {
             let mmhg = parseFloat(a);
             let pascals = mmhg * 133.322;
@@ -327,17 +297,13 @@ window.onload = function(){
         }
     }
 
-    // Вычисляем результат при нажатии на = (вешаем обработчик события click на кнопку =)
     document.getElementById("btn_op_equal").onclick = function() { 
-        // Проверяем, что у нас есть оба числа и операция
         if (a === '' || b === '' || !selectedOperation)
             return
             
-        // Выполняем выбранную операцию - чтобы не плодить if, воспользуемся удобной и более наглядной функцией сравнения switch, которая на основе значения переданной переменной выполняет нужный кейс. В case указывается ожидаемое точное значение переменной (это может быть любое значение), а затем после : пишется код, который нужно выполнить в данном случае. Case проверяются последовательно, выход из switch происходит при попадании на break или если значение не совпало ни с чем.
         switch(selectedOperation) { 
             case 'x':
                 expressionResult = (+a) * (+b)
-                // обязательно пишется в конце действий case, чтобы выйти из switch, иначе продолжится сравнение case дальше
                 break;
             case '+':
                 expressionResult = (+a) + (+b)
@@ -348,17 +314,14 @@ window.onload = function(){
             case '/':
                 expressionResult = (+a) / (+b)
                 break;
-            // желательно (но не обязательно) всегда прописывать дефолтное поведение, в случае если в переменной окажется не перечисленное выше значение. в нашем случае это не нужно.
             default:
                 break;
         }
         
-        // Сохраняем результат и очищаем второе число, чтобы при новом вводе записывать значение нового числа в b
         a = expressionResult.toString()
         b = ''
         selectedOperation = null
 
-        // Показываем результат на экране
         outputElement.innerHTML = a
     }
 };
