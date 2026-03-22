@@ -18,7 +18,32 @@ export function weatherIsPalindrome(str) {
     } while (left < right);
     return true;
 }
+/**export function isPalindrome2(stroka) {
+    const s = String(stroka).toLowerCase();
+    const reversed = s.split('').reverse().join('');
+    return s === reversed;
+}
 
+export function isPalindrome3(stroka) {
+    const s = String(stroka).toLowerCase();
+    const charMap = {}; // Используем объект для хранения пар символов для сравнения
+    const length = s.length;
+    for (let i = 0; i < Math.floor(length / 2); i++) {
+        charMap[i] = {
+            left: s[i],
+            right: s[length - 1 - i]
+        };
+    }
+    const bad_smbl = new Set(); // Используем коллекцию Set для хранения несовпадающих позиций
+    for (let key in charMap) {
+        if (charMap[key].left !== charMap[key].right) {
+            bad_smbl.add(key);
+        }
+    }
+    return bad_smbl.size === 0;
+} */
+
+    
 /**
  * Суммирует элементы главной и побочной диагоналей квадратной матрицы
  * Центральный элемент учитывается один раз
