@@ -1,4 +1,4 @@
-const weatherService = require('../services/weatherService');
+const weatherService = require('../weather_services/weatherService');
 
 // Вспомогательная функция валидации полей
 const validateWeatherData = (data, isUpdate = false) => {

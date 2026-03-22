@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const weatherController = require('../controllers/weatherController');
+const weatherController = require('../weather_controllers/weatherController');
 
 router.get('/', weatherController.getAllWeather);
 router.get('/:id', weatherController.getWeatherById);

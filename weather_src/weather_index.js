@@ -1,11 +1,11 @@
 const express = require('express');
 const path = require('path');
-const weatherRouter = require('./routes/weather');
-const weatherService = require('./services/weatherService');
+const weatherRouter = require('./weather_routes/weather');
+const weatherService = require('./weather_services/weatherService');
 
 const app = express();
 const PORT = 3000;
-const DATA_FILE_PATH = path.join(__dirname, 'data/weather.json');
+const DATA_FILE_PATH = path.join(__dirname, 'weather_data/weather.json');
 
 weatherService.init(DATA_FILE_PATH);
 

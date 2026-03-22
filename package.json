@@ -2,14 +2,14 @@
   "name": "korchagina_psp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "weather_src/weather_index.js",
   "dependencies": {
     "bootstrap": "^5.3.8",
     "express": "^5.2.1"
   },
   "scripts": {
-  "start": "node src/index.js",
-  "dev": "nodemon src/index.js"
+  "start": "node weather_src/index.js",
+  "dev": "nodemon weather_src/index.js"
 },
   "repository": {
     "type": "git",
