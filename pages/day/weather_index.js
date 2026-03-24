@@ -105,21 +105,15 @@ export class DayPage {
         return weatherData[this.id] || weatherData[1];
     }
 
-    get pageRoot() {
-        return document.getElementById('day-page');
-    }
-
     getHTML() {
-        return (
-            `
+        return `
             <div id="day-page" class="day-page">
                 <div class="container" style="max-width: 600px;">
                     <div id="back-button-container" class="mb-4"></div>
                     <div id="day-content"></div>
                 </div>
             </div>
-            `
-        );
+        `;
     }
 
     clickBack() {
@@ -129,31 +123,25 @@ export class DayPage {
 
     render() {
         this.parent.innerHTML = '';
+        this.parent.insertAdjacentHTML('beforeend', this.getHTML());
         
-        const html = this.getHTML();
-        this.parent.insertAdjacentHTML('beforeend', html);
-        
-        const backButtonContainer = document.getElementById('back-button-container');
-        const backButton = new BackButtonComponent(backButtonContainer);
+        const backButton = new BackButtonComponent(document.getElementById('back-button-container'));
         backButton.render(this.clickBack.bind(this));
         
         const data = this.getData();
         const dayContent = document.getElementById('day-content');
         
         const isWeekend = (data.day === "Суббота" || data.day === "Воскресенье");
-        const dayColor = isWeekend ? '#ff4444' : '#333';
         
-        const dayHTML = `
+        dayContent.insertAdjacentHTML('beforeend', `
             <div class="day-card">
-                <h2 class="day-title" style="color: ${dayColor}">${data.day}</h2>
+                <h2 class="day-title" style="color: ${isWeekend ? '#ff4444' : '#333'}">${data.day}</h2>
                 <div class="day-date">${data.date}</div>
-                
                 <div class="text-center mb-4">
                     <div class="day-icon">${data.icon}</div>
                     <div class="day-temp">${data.temp}</div>
                     <div class="day-feels">Ощущается как ${data.feelsLike}</div>
                 </div>
-                
                 <div class="row g-3">
                     <div class="col-6">
                         <div class="day-detail-item">
@@ -181,8 +169,6 @@ export class DayPage {
                     </div>
                 </div>
             </div>
-        `;
-        
-        dayContent.insertAdjacentHTML('beforeend', dayHTML);
+        `);
     }
 }
