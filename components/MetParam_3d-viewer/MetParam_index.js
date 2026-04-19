@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { getModelConfig } from '../../weather_utils/weather_modelConfig.js';
+import { getModelConfig } from '../../MetParam_utils/MetParam_modelConfig.js';
 
-export class Weather3DViewer {
+export class MetParam3DViewer {
     constructor(container, weatherType) {
         this.container = container;
         this.weatherType = weatherType;

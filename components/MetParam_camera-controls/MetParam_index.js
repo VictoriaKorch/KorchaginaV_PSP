@@ -32,7 +32,5 @@ export class CameraControls {
         this.buttons.right?.addEventListener('click', () => this.viewer.setView('right'));
     }
 
-    destroy() {
-        // Обработчики удаляются вместе с DOM, ничего дополнительного не требуется
-    }
+    destroy() {}
 }

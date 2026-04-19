@@ -1,62 +1,91 @@
-/* Кастомные стили для проекта прогноза погоды */
+/* Кастомные стили для проекта метеопараметров */
 
-/* Цвета для выходных */
-.weekend-day {
-    color: #ff4444 !important;
-    font-weight: 600;
-    font-size: 1.1rem;
-    margin-bottom: 4px;
-}
-
-.weekday-day {
+/* Название параметра */
+.param-name {
     color: #333 !important;
     font-weight: 600;
     font-size: 1.1rem;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
 }
 
-/* Карточка погоды */
-.weather-card {
-    width: 200px;
+/* Карточка метеопараметра */
+.metparam-card {
+    width: 260px;
     background: white;
     border-radius: 16px;
     border: 1px solid #f0f0f0;
     transition: transform 0.2s;
-    flex-shrink: 0;
 }
 
-.weather-card:hover {
+.metparam-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
 }
 
-/* Иконка погоды */
-.weather-icon {
-    font-size: 2.5rem;
-    line-height: 1;
-    margin: 8px 0;
+/* Отступы в карточке */
+.card-padding-top {
+    height: 12px;
 }
 
-/* Температура */
-.weather-temp {
-    font-size: 1.8rem;
+.card-padding-bottom {
+    height: 8px;
+}
+
+/* Иконка параметра */
+.param-icon-wrapper {
+    margin: 12px 0;
+}
+
+.param-icon {
+    font-size: 2.8rem;
+    line-height: 1;
+}
+
+/* Значение параметра */
+.param-value {
+    font-size: 1.3rem;
     font-weight: 500;
     color: #333;
-    margin: 8px 0;
+    margin: 4px 0 8px 0;
+    line-height: 1.2;
 }
 
-/* Ощущается как */
-.weather-feels {
+/* Описание параметра */
+.param-description {
     font-size: 0.8rem;
     color: #999;
     margin-bottom: 12px;
 }
 
-/* Дата в карточке */
-.weather-date {
-    font-size: 0.85rem;
-    color: #999;
-    margin-bottom: 12px;
+/* Математические результаты в карточке */
+.math-results {
+    background: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 16px;
+}
+
+.math-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.math-item:last-child {
+    margin-bottom: 0;
+}
+
+.math-label {
+    font-size: 0.75rem;
+    color: #333;
+    font-weight: normal;
+}
+
+.math-result-value {
+    font-size: 0.75rem;
+    color: #333;
+    font-weight: bold;
 }
 
 /* Кнопка подробнее */
@@ -136,52 +165,23 @@
     margin: 0;
 }
 
-.page-subtitle {
-    font-size: 1.2rem;
-    color: #333;
-    margin-top: 5px;
+/* Фильтр поиска */
+.search-filter {
+    margin-top: -10px;
 }
 
-/* Карусель */
-.carousel-container {
-    position: relative;
-    max-width: 940px;
+/* Grid для метеопараметров */
+.metparam-grid-container {
+    max-width: 860px;
     margin: 0 auto;
 }
 
-.carousel-track {
-    display: flex;
+.metparam-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 260px);
     gap: 20px;
-    transition: transform 0.3s ease;
-}
-
-.carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 10;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
     justify-content: center;
-}
-
-.carousel-btn:hover {
-    background: #f8f9fa;
-}
-
-.carousel-prev {
-    left: -20px;
-}
-
-.carousel-next {
-    right: -20px;
+    align-items: start;
 }
 
 /* Страница дня */
@@ -199,61 +199,33 @@
     border: 1px solid #f0f0f0;
 }
 
-.day-title {
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.day-date {
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.day-icon {
-    font-size: 6rem;
-    line-height: 1;
-}
-
-.day-temp {
-    font-size: 3rem;
-    font-weight: 600;
-    color: #333;
-}
-
-.day-feels {
-    color: #666;
-}
-
-.day-detail-item {
-    background: #f8f9fa;
-    padding: 10px;
-    border-radius: 10px;
-}
-
-.day-detail-label {
-    color: #999;
-    font-size: 0.9rem;
-}
-
-.day-detail-value {
-    font-weight: 600;
-}
-.weather-3d-preview canvas {
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    cursor: pointer;
-}
+/* Кнопки управления камерой */
 .btn-light {
     transition: background-color 0.2s, transform 0.1s;
     background-color: #fff;
     border: 1px solid #ddd;
     color: #333;
 }
+
 .btn-light:hover {
     background-color: #e9ecef;
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
 .btn-light:active {
     transform: translateY(0);
+}
+
+/* Адаптивность */
+@media (max-width: 900px) {
+    .metparam-grid {
+        grid-template-columns: repeat(2, 260px);
+    }
+}
+
+@media (max-width: 600px) {
+    .metparam-grid {
+        grid-template-columns: 260px;
+    }
 }

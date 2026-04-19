@@ -1,4 +1,4 @@
-import { MainPage } from "./pages/weather_main/weather_index.js";
+import { MainPage } from "./pages/MetParam_main/MetParam_index.js";
 
 const root = document.getElementById('root');
 
