@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "Температура",
+    "value": 7,
+    "unit": "°C",
+    "description": "Комфортная",
+    "additionalData": {
+      "feelsLike": 5,
+      "min": 2,
+      "max": 9
+    }
+  },
+  {
+    "id": 2,
+    "name": "Давление",
+    "value": 755,
+    "unit": "мм.рт.ст",
+    "description": "Повышенное",
+    "additionalData": {
+      "tendency": "Растет",
+      "normal": "745-755"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Влажность",
+    "value": 80,
+    "unit": "%",
+    "description": "Повышенная",
+    "additionalData": {
+      "dewPoint": 4,
+      "comfort": "Влажно"
+    }
+  },
+  {
+    "id": 4,
+    "name": "Ветер",
+    "value": 2,
+    "unit": "м/с",
+    "description": "Легкий",
+    "additionalData": {
+      "direction": "Юго-западный",
+      "gusts": 4
+    }
+  },
+  {
+    "id": 5,
+    "name": "УФ излучение",
+    "value": 3,
+    "unit": "УФИ",
+    "description": "Умеренный",
+    "additionalData": {
+      "level": "Средний",
+      "protection": "SPF 15+"
+    }
+  }
+]

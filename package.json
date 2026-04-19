@@ -1,28 +1,24 @@
 {
-  "name": "korchagina_psp",
+  "name": "metparam-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "weather_src/weather_index.js",
-  "dependencies": {
-    "bootstrap": "^5.3.8",
-    "express": "^5.2.1"
-  },
+  "description": "API для управления метеорологическими параметрами",
+  "main": "MetParam_src/MetParam_index.js",
   "scripts": {
-  "start": "node weather_src/index.js",
-  "dev": "nodemon weather_src/index.js"
-},
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/VictoriaKorch/KorchaginaV_PSP.git"
+    "start": "node MetParam_src/MetParam_index.js",
+    "dev": "nodemon MetParam_src/MetParam_index.js"
   },
-  "keywords": [],
+  "keywords": [
+    "meteorological",
+    "parameters",
+    "api",
+    "express"
+  ],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/VictoriaKorch/KorchaginaV_PSP/issues"
+  "dependencies": {
+    "express": "^4.18.2"
   },
-  "homepage": "https://github.com/VictoriaKorch/KorchaginaV_PSP#readme",
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.0.1"
   }
 }

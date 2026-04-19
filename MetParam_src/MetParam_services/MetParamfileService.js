@@ -13,8 +13,10 @@ const readData = (filePath) => {
 const writeData = (filePath, data) => {
     try {
         fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
+        return true;
     } catch (err) {
         console.error('Ошибка записи файла:', err);
+        return false;
     }
 };
 
