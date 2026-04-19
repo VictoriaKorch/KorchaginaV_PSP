@@ -1,4 +1,4 @@
-/* Кастомные стили для проекта прогноза погоды */
+/* Кастомные стили для проекта метеопараметров */
 
 /* Цвета для выходных */
 .weekend-day {
@@ -12,17 +12,16 @@
     color: #333 !important;
     font-weight: 600;
     font-size: 1.1rem;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
 }
 
 /* Карточка погоды */
 .weather-card {
-    width: 200px;
+    width: 220px;
     background: white;
     border-radius: 16px;
     border: 1px solid #f0f0f0;
     transition: transform 0.2s;
-    flex-shrink: 0;
 }
 
 .weather-card:hover {
@@ -30,26 +29,39 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
 }
 
-/* Иконка погоды */
-.weather-icon {
-    font-size: 2.5rem;
-    line-height: 1;
-    margin: 8px 0;
+/* Отступы в карточке */
+.card-padding-top {
+    height: 12px;
 }
 
-/* Температура */
-.weather-temp {
-    font-size: 1.8rem;
+.card-padding-bottom {
+    height: 8px;
+}
+
+/* Иконка погоды */
+.weather-icon-wrapper {
+    margin: 12px 0;
+}
+
+.weather-icon {
+    font-size: 2.8rem;
+    line-height: 1;
+}
+
+/* Значение параметра */
+.weather-value {
+    font-size: 1.3rem;
     font-weight: 500;
     color: #333;
-    margin: 8px 0;
+    margin: 4px 0 8px 0;
+    line-height: 1.2;
 }
 
-/* Ощущается как */
+/* Ощущается как / описание */
 .weather-feels {
     font-size: 0.8rem;
     color: #999;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
 }
 
 /* Дата в карточке */
@@ -142,46 +154,23 @@
     margin-top: 5px;
 }
 
-/* Карусель */
-.carousel-container {
-    position: relative;
-    max-width: 940px;
+/* Фильтр поиска */
+.search-filter {
+    margin-top: -10px;
+}
+
+/* Grid для метеопараметров */
+.metparam-grid-container {
+    max-width: 740px;
     margin: 0 auto;
 }
 
-.carousel-track {
-    display: flex;
+.metparam-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 220px);
     gap: 20px;
-    transition: transform 0.3s ease;
-}
-
-.carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 10;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
     justify-content: center;
-}
-
-.carousel-btn:hover {
-    background: #f8f9fa;
-}
-
-.carousel-prev {
-    left: -20px;
-}
-
-.carousel-next {
-    right: -20px;
+    align-items: start;
 }
 
 /* Страница дня */
@@ -212,6 +201,7 @@
 .day-icon {
     font-size: 6rem;
     line-height: 1;
+    margin: 20px 0;
 }
 
 .day-temp {
@@ -237,4 +227,17 @@
 
 .day-detail-value {
     font-weight: 600;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .metparam-grid {
+        grid-template-columns: repeat(2, 220px);
+    }
+}
+
+@media (max-width: 500px) {
+    .metparam-grid {
+        grid-template-columns: 220px;
+    }
 }

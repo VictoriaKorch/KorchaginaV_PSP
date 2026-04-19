@@ -1,23 +1,23 @@
-export class WeatherCardComponent {
+export class MetParamCardComponent {
     constructor(parent) {
         this.parent = parent;
     }
 
     getHTML(data) {
-        const dayClass = (data.day === "Сб" || data.day === "Вс") ? 'weekend-day' : 'weekday-day';
-        
         return (
             `
             <div class="weather-card shadow-sm" data-id="${data.id}">
                 <div class="card-body text-center">
-                    <h5 class="${dayClass}">${data.day}</h5>
-                    <div class="weather-date">${data.date}</div>
+                    <div class="card-padding-top"></div>
+                    <h5 class="weekday-day">${data.name}</h5>
                     
-                    <div class="weather-icon">${data.icon}</div>
+                    <div class="weather-icon-wrapper">
+                        <div class="weather-icon">${data.icon}</div>
+                    </div>
                     
-                    <div class="weather-temp">${data.tempDisplay}</div>
+                    <div class="weather-value">${data.value}${data.unit}</div>
                     
-                    <div class="weather-feels">Ощущается: ${data.feels}</div>
+                    <div class="weather-feels">${data.description || ''}</div>
                     
                     <div class="d-flex gap-2 justify-content-center">
                         <button class="btn btn-detail" data-id="${data.id}">
@@ -28,6 +28,7 @@ export class WeatherCardComponent {
                             🗑️
                         </button>
                     </div>
+                    <div class="card-padding-bottom"></div>
                 </div>
             </div>
             `
