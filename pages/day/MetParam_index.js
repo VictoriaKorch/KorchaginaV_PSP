@@ -59,7 +59,7 @@ export class DayPage {
                 
                 let displayValue = value;
                 if (key === 'feelsLike' || key === 'min' || key === 'max' || key === 'dewPoint') {
-                    displayValue = `${value}${data.unit}`;
+                    displayValue = `${value} ${data.unit}`;
                 }
                 if (key === 'gusts') {
                     displayValue = `${value} ${data.unit}`;
@@ -81,11 +81,11 @@ export class DayPage {
             <div class="day-card">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <h2 class="day-title" style="color: #333">${data.name}</h2>
-                    <button id="edit-btn" class="btn btn-edit">✏️ Редактировать</button>
+                    <button id="edit-btn" class="btn btn-outline-secondary">✏️ Редактировать</button>
                 </div>
                 <div class="text-center mb-4">
                     <div class="day-icon">${this.getIcon(data.name)}</div>
-                    <div class="day-temp">${data.value}${data.unit}</div>
+                    <div class="day-temp">${data.value} ${data.unit}</div>
                     <div class="day-feels">${data.description}</div>
                 </div>
                 ${details.length > 0 ? `

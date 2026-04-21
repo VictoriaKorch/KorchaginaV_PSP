@@ -107,6 +107,26 @@
     color: #dc3545;
 }
 
+/* Кнопка редактирования */
+.btn-edit {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: #f8f9fa;
+    color: #666;
+    border: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.btn-edit:hover {
+    background: #e9ecef;
+    color: #0d6efd;
+}
+
 /* Кнопка назад */
 .btn-back {
     background: white;

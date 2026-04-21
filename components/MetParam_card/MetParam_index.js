@@ -14,7 +14,7 @@ export class MetParamCardComponent {
                         <div class="weather-icon">${this.getIcon(data.name)}</div>
                     </div>
                     
-                    <div class="weather-value">${data.value}${data.unit}</div>
+                    <div class="weather-value">${data.value} ${data.unit}</div>
                     
                     <div class="weather-feels">${data.description || ''}</div>
                     
