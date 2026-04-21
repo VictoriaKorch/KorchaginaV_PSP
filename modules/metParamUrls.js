@@ -1,26 +1,27 @@
 class MetParamUrls {
     constructor() {
-        this.baseUrl = 'http://localhost:3000';
+        // Пустая строка = относительные пути
+        this.baseUrl = '';
     }
 
     getMetParams() {
-        return `${this.baseUrl}/api/metparams`;
+        return '/api/metparams';
     }
 
     getMetParamById(id) {
-        return `${this.baseUrl}/api/metparams/${id}`;
+        return `/api/metparams/${id}`;
     }
 
     createMetParam() {
-        return `${this.baseUrl}/api/metparams`;
+        return '/api/metparams';
     }
 
     updateMetParamById(id) {
-        return `${this.baseUrl}/api/metparams/${id}`;
+        return `/api/metparams/${id}`;
     }
 
     deleteMetParamById(id) {
-        return `${this.baseUrl}/api/metparams/${id}`;
+        return `/api/metparams/${id}`;
     }
 }
 

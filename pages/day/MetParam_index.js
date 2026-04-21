@@ -122,8 +122,9 @@ export class DayPage {
         const backButton = new BackButtonComponent(backButtonContainer);
         backButton.render(this.clickBack.bind(this));
         
-        // Загружаем данные через API
-        ajax.get(metParamUrls.getMetParamById(this.id), (data, status) => {
+        // Загружаем данные через API с async/await
+        const loadData = async () => {
+            const { data, status } = await ajax.get(metParamUrls.getMetParamById(this.id));
             if (status === 200 && data) {
                 this.renderContent(data);
             } else {
@@ -133,6 +134,7 @@ export class DayPage {
                     </div>
                 `;
             }
-        });
+        };
+        loadData();
     }
 }

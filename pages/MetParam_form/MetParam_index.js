@@ -6,7 +6,7 @@ import { metParamUrls } from "../../modules/metParamUrls.js";
 export class MetParamFormPage {
     constructor(parent, id = null) {
         this.parent = parent;
-        this.id = id ? parseInt(id) : null; // null для создания, id для редактирования
+        this.id = id ? parseInt(id) : null;
         this.metParam = null;
     }
 
@@ -58,7 +58,7 @@ export class MetParamFormPage {
                 <div class="mb-3">
                     <label for="value" class="form-label">Значение</label>
                     <input type="number" step="0.1" class="form-control" id="value" name="value" 
-                           value="${data.value !== undefined ? data.value : ''}" required>
+                           value="${data.value !== undefined && data.value !== null ? data.value : ''}" required>
                 </div>
 
                 <div class="mb-3">
@@ -85,7 +85,6 @@ export class MetParamFormPage {
         `;
     }
 
-    // Обновление единицы измерения при смене названия
     bindNameChange() {
         const nameSelect = document.getElementById('name');
         const unitInput = document.getElementById('unit');
@@ -97,14 +96,18 @@ export class MetParamFormPage {
             'УФ излучение': 'УФИ'
         };
         
-        nameSelect.addEventListener('change', (e) => {
-            unitInput.value = units[e.target.value] || '';
-        });
+        if (nameSelect && unitInput) {
+            nameSelect.addEventListener('change', (e) => {
+                unitInput.value = units[e.target.value] || '';
+            });
+        }
     }
 
     bindFormSubmit() {
         const form = document.getElementById('metparam-form');
-        form.addEventListener('submit', (e) => {
+        if (!form) return;
+        
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const formData = {
@@ -115,26 +118,30 @@ export class MetParamFormPage {
                 additionalData: this.metParam?.additionalData || {}
             };
 
+            console.log('Отправка данных:', formData); // Для отладки
+
             if (this.id) {
                 // Редактирование - PATCH
-                ajax.patch(metParamUrls.updateMetParamById(this.id), formData, (data, status) => {
-                    if (status === 200) {
-                        alert('Метеопараметр обновлён!');
-                        this.clickBack();
-                    } else {
-                        alert('Ошибка при обновлении');
-                    }
-                });
+                const result = await ajax.patch(metParamUrls.updateMetParamById(this.id), formData);
+                console.log('Результат PATCH:', result); // Для отладки
+                
+                if (result.status === 200) {
+                    alert('Метеопараметр обновлён!');
+                    this.clickBack();
+                } else {
+                    alert(`Ошибка при обновлении: статус ${result.status}`);
+                }
             } else {
                 // Создание - POST
-                ajax.post(metParamUrls.createMetParam(), formData, (data, status) => {
-                    if (status === 201) {
-                        alert('Метеопараметр создан!');
-                        this.clickBack();
-                    } else {
-                        alert('Ошибка при создании');
-                    }
-                });
+                const result = await ajax.post(metParamUrls.createMetParam(), formData);
+                console.log('Результат POST:', result); // Для отладки
+                
+                if (result.status === 201) {
+                    alert('Метеопараметр создан!');
+                    this.clickBack();
+                } else {
+                    alert(`Ошибка при создании: статус ${result.status}`);
+                }
             }
         });
     }
@@ -142,22 +149,28 @@ export class MetParamFormPage {
     loadData() {
         if (this.id) {
             // Режим редактирования - загружаем данные
-            ajax.get(metParamUrls.getMetParamById(this.id), (data, status) => {
+            const loadDataAsync = async () => {
+                console.log('Загрузка данных для ID:', this.id); // Для отладки
+                const result = await ajax.get(metParamUrls.getMetParamById(this.id));
+                console.log('Результат GET:', result); // Для отладки
+                
                 const formContent = document.getElementById('form-content');
-                if (status === 200 && data) {
-                    this.metParam = data;
-                    formContent.innerHTML = this.getFormHTML(data);
+                if (result.status === 200 && result.data) {
+                    this.metParam = result.data;
+                    formContent.innerHTML = this.getFormHTML(result.data);
                     this.bindNameChange();
                     this.bindFormSubmit();
                     this.bindCancel();
                 } else {
                     formContent.innerHTML = `
                         <div class="alert alert-danger">
-                            Ошибка загрузки данных. Метеопараметр не найден.
+                            Ошибка загрузки данных. Метеопараметр не найден.<br>
+                            Статус: ${result.status}
                         </div>
                     `;
                 }
-            });
+            };
+            loadDataAsync();
         } else {
             // Режим создания
             const formContent = document.getElementById('form-content');
@@ -169,9 +182,12 @@ export class MetParamFormPage {
     }
 
     bindCancel() {
-        document.getElementById('cancel-btn').addEventListener('click', () => {
-            this.clickBack();
-        });
+        const cancelBtn = document.getElementById('cancel-btn');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => {
+                this.clickBack();
+            });
+        }
     }
 
     clickBack() {

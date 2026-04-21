@@ -23,13 +23,15 @@ export class MainPage {
 
     deleteCard(id) {
         if (confirm('Удалить метеопараметр?')) {
-            ajax.delete(metParamUrls.deleteMetParamById(id), (data, status) => {
+            const deleteAsync = async () => {
+                const { status } = await ajax.delete(metParamUrls.deleteMetParamById(id));
                 if (status === 204) {
                     this.loadData();
                 } else {
                     alert('Ошибка при удалении');
                 }
-            });
+            };
+            deleteAsync();
         }
     }
 
@@ -54,14 +56,16 @@ export class MainPage {
             url += `?name=${encodeURIComponent(searchText)}`;
         }
         
-        ajax.get(url, (data, status) => {
+        const loadAsync = async () => {
+            const { data, status } = await ajax.get(url);
             if (status === 200) {
                 this.currentData = data;
                 this.updateGrid();
             } else {
                 console.error('Ошибка загрузки данных');
             }
-        });
+        };
+        loadAsync();
     }
 
     updateGrid() {
@@ -105,7 +109,6 @@ export class MainPage {
         this.grid = new MetParamGridComponent(gridContainer);
         this.grid.render();
 
-        // Восстановление фильтра
         if (window.searchFilterState) {
             const { searchText } = window.searchFilterState;
             this.filterComponent.setValue(searchText);

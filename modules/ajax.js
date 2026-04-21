@@ -1,57 +1,80 @@
+// modules/ajax.js
+// Замена XMLHttpRequest на fetch с промисами
+
 class Ajax {
-    get(url, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.send();
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                this._handleResponse(xhr, callback);
-            }
-        };
-    }
-
-    post(url, data, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', url);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                this._handleResponse(xhr, callback);
-            }
-        };
-    }
-
-    patch(url, data, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('PATCH', url);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                this._handleResponse(xhr, callback);
-            }
-        };
-    }
-
-    delete(url, callback) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('DELETE', url);
-        xhr.send();
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                this._handleResponse(xhr, callback);
-            }
-        };
-    }
-
-    _handleResponse(xhr, callback) {
+    // GET запрос
+    async get(url) {
         try {
-            const data = xhr.responseText ? JSON.parse(xhr.responseText) : null;
-            callback(data, xhr.status);
-        } catch (e) {
-            console.error('Ошибка парсинга JSON:', e);
-            callback(null, xhr.status);
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            return { data, status: response.status };
+        } catch (error) {
+            console.error('GET request failed:', error);
+            return { data: null, status: 500, error: error.message };
+        }
+    }
+
+    // POST запрос
+    async post(url, data) {
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+            
+            let responseData = null;
+            try {
+                responseData = await response.json();
+            } catch (e) {
+                // Если ответ не JSON
+            }
+            
+            return { data: responseData, status: response.status };
+        } catch (error) {
+            console.error('POST request failed:', error);
+            return { data: null, status: 500, error: error.message };
+        }
+    }
+
+    // PATCH запрос
+    async patch(url, data) {
+        try {
+            const response = await fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+            
+            let responseData = null;
+            try {
+                responseData = await response.json();
+            } catch (e) {}
+            
+            return { data: responseData, status: response.status };
+        } catch (error) {
+            console.error('PATCH request failed:', error);
+            return { data: null, status: 500, error: error.message };
+        }
+    }
+
+    // DELETE запрос
+    async delete(url) {
+        try {
+            const response = await fetch(url, {
+                method: 'DELETE',
+            });
+            return { data: null, status: response.status };
+        } catch (error) {
+            console.error('DELETE request failed:', error);
+            return { data: null, status: 500, error: error.message };
         }
     }
 }
