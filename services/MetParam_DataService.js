@@ -1,7 +1,7 @@
 // services/metParamDataService.js
 
 // Начальные данные метеопараметров
-const initialData = [
+/*const initialData = [
     { 
         id: 1, 
         name: "Температура", 
@@ -126,4 +126,4 @@ export const updateCard = (id, updatedData) => {
 // Получение количества карточек
 export const getCardsCount = () => {
     return allCards.length;
-};
+};*/

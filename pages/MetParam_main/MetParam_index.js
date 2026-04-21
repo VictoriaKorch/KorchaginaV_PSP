@@ -1,13 +1,16 @@
 import { DayPage } from "../day/MetParam_index.js";
+import { MetParamFormPage } from "../MetParam_form/MetParam_index.js";
 import { MetParamGridComponent } from "../../components/MetParam_grid/MetParam_index.js";
 import { SearchFilterComponent } from "../../components/MetParam_search-filter/MetParam_index.js";
-import * as paramService from "../../services/MetParam_DataService.js";
+import { ajax } from "../../modules/ajax.js";
+import { metParamUrls } from "../../modules/metParamUrls.js";
 
 export class MainPage {
     constructor(parent) {
         this.parent = parent;
         this.grid = null;
         this.filterComponent = null;
+        this.currentData = [];
     }
 
     clickCard(e) {
@@ -19,28 +22,55 @@ export class MainPage {
     }
 
     deleteCard(id) {
-        paramService.deleteCard(id);
-        this.updateGrid();
+        if (confirm('Удалить метеопараметр?')) {
+            ajax.delete(metParamUrls.deleteMetParamById(id), (data, status) => {
+                if (status === 204) {
+                    this.loadData();
+                } else {
+                    alert('Ошибка при удалении');
+                }
+            });
+        }
+    }
+
+    editCard(id) {
+        const formPage = new MetParamFormPage(this.parent, id);
+        formPage.render();
     }
 
     addCard() {
-        paramService.addCard();
-        this.updateGrid();
+        const formPage = new MetParamFormPage(this.parent, null);
+        formPage.render();
     }
 
     applyFilter(searchText) {
-        paramService.applyFilter(searchText);
         window.searchFilterState = { searchText };
-        this.updateGrid();
+        this.loadData(searchText);
+    }
+
+    loadData(searchText = '') {
+        let url = metParamUrls.getMetParams();
+        if (searchText) {
+            url += `?name=${encodeURIComponent(searchText)}`;
+        }
+        
+        ajax.get(url, (data, status) => {
+            if (status === 200) {
+                this.currentData = data;
+                this.updateGrid();
+            } else {
+                console.error('Ошибка загрузки данных');
+            }
+        });
     }
 
     updateGrid() {
-        const filteredData = paramService.getFilteredData();
         if (this.grid) {
             this.grid.setCards(
-                filteredData, 
-                this.clickCard.bind(this), 
-                this.deleteCard.bind(this)
+                this.currentData, 
+                this.clickCard.bind(this),
+                this.deleteCard.bind(this),
+                this.editCard.bind(this)
             );
         }
     }
@@ -79,9 +109,9 @@ export class MainPage {
         if (window.searchFilterState) {
             const { searchText } = window.searchFilterState;
             this.filterComponent.setValue(searchText);
-            this.applyFilter(searchText);
+            this.loadData(searchText);
         } else {
-            this.updateGrid();
+            this.loadData();
         }
 
         document.getElementById('add-btn').onclick = this.addCard.bind(this);
