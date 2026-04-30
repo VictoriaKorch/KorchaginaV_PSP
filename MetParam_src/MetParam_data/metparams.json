@@ -2,7 +2,7 @@
   {
     "id": 1,
     "name": "Температура",
-    "value": 7,
+    "value": 11,
     "unit": "°C",
     "description": "Комфортная",
     "additionalData": {
@@ -14,7 +14,7 @@
   {
     "id": 2,
     "name": "Давление",
-    "value": 755,
+    "value": 757,
     "unit": "мм.рт.ст",
     "description": "Повышенное",
     "additionalData": {
@@ -54,5 +54,13 @@
       "level": "Средний",
       "protection": "SPF 15+"
     }
+  },
+  {
+    "id": 6,
+    "name": "Температура",
+    "value": 6,
+    "unit": "°C",
+    "description": "3",
+    "additionalData": {}
   }
 ]
