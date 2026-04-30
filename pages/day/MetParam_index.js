@@ -1,6 +1,5 @@
 import { BackButtonComponent } from "../../components/MetParam_back-button/MetParam_index.js";
 import { MainPage } from "../MetParam_main/MetParam_index.js";
-import { MetParamFormPage } from "../MetParam_form/MetParam_index.js";
 import { ajax } from "../../modules/ajax.js";
 import { metParamUrls } from "../../modules/metParamUrls.js";
 
@@ -77,11 +76,12 @@ export class DayPage {
         const dayContent = document.getElementById('day-content');
         const details = this.getDetailsHTML(data);
         
+        // КНОПКА РЕДАКТИРОВАНИЯ УДАЛЕНА
         dayContent.innerHTML = `
             <div class="day-card">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <h2 class="day-title" style="color: #333">${data.name}</h2>
-                    <button id="edit-btn" class="btn btn-outline-secondary">✏️ Редактировать</button>
+                    <!-- Кнопка редактирования удалена -->
                 </div>
                 <div class="text-center mb-4">
                     <div class="day-icon">${this.getIcon(data.name)}</div>
@@ -103,10 +103,7 @@ export class DayPage {
             </div>
         `;
         
-        document.getElementById('edit-btn').addEventListener('click', () => {
-            const formPage = new MetParamFormPage(this.parent, this.id);
-            formPage.render();
-        });
+        // Обработчик кнопки редактирования УДАЛЕН
     }
 
     clickBack() {
@@ -122,7 +119,6 @@ export class DayPage {
         const backButton = new BackButtonComponent(backButtonContainer);
         backButton.render(this.clickBack.bind(this));
         
-        // Загружаем данные через API с async/await
         const loadData = async () => {
             const { data, status } = await ajax.get(metParamUrls.getMetParamById(this.id));
             if (status === 200 && data) {

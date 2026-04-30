@@ -58,7 +58,7 @@ export class MetParamFormPage {
                 <div class="mb-3">
                     <label for="value" class="form-label">Значение</label>
                     <input type="number" step="0.1" class="form-control" id="value" name="value" 
-                           value="${data.value !== undefined && data.value !== null ? data.value : ''}" required>
+                           value="${data.value !== undefined ? data.value : ''}" required>
                 </div>
 
                 <div class="mb-3">
@@ -96,17 +96,13 @@ export class MetParamFormPage {
             'УФ излучение': 'УФИ'
         };
         
-        if (nameSelect && unitInput) {
-            nameSelect.addEventListener('change', (e) => {
-                unitInput.value = units[e.target.value] || '';
-            });
-        }
+        nameSelect.addEventListener('change', (e) => {
+            unitInput.value = units[e.target.value] || '';
+        });
     }
 
     bindFormSubmit() {
         const form = document.getElementById('metparam-form');
-        if (!form) return;
-        
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -118,29 +114,23 @@ export class MetParamFormPage {
                 additionalData: this.metParam?.additionalData || {}
             };
 
-            console.log('Отправка данных:', formData); // Для отладки
-
             if (this.id) {
-                // Редактирование - PATCH
-                const result = await ajax.patch(metParamUrls.updateMetParamById(this.id), formData);
-                console.log('Результат PATCH:', result); // Для отладки
-                
-                if (result.status === 200) {
-                    alert('Метеопараметр обновлён!');
+                // Редактирование - PATCH (alert УДАЛЁН)
+                const { status } = await ajax.patch(metParamUrls.updateMetParamById(this.id), formData);
+                if (status === 200) {
+                    // alert УДАЛЁН - просто возвращаемся на главную
                     this.clickBack();
                 } else {
-                    alert(`Ошибка при обновлении: статус ${result.status}`);
+                    console.error('Ошибка при обновлении');
                 }
             } else {
-                // Создание - POST
-                const result = await ajax.post(metParamUrls.createMetParam(), formData);
-                console.log('Результат POST:', result); // Для отладки
-                
-                if (result.status === 201) {
-                    alert('Метеопараметр создан!');
+                // Создание - POST (alert УДАЛЁН)
+                const { status } = await ajax.post(metParamUrls.createMetParam(), formData);
+                if (status === 201) {
+                    // alert УДАЛЁН - просто возвращаемся на главную
                     this.clickBack();
                 } else {
-                    alert(`Ошибка при создании: статус ${result.status}`);
+                    console.error('Ошибка при создании');
                 }
             }
         });
@@ -148,31 +138,25 @@ export class MetParamFormPage {
 
     loadData() {
         if (this.id) {
-            // Режим редактирования - загружаем данные
             const loadDataAsync = async () => {
-                console.log('Загрузка данных для ID:', this.id); // Для отладки
-                const result = await ajax.get(metParamUrls.getMetParamById(this.id));
-                console.log('Результат GET:', result); // Для отладки
-                
+                const { data, status } = await ajax.get(metParamUrls.getMetParamById(this.id));
                 const formContent = document.getElementById('form-content');
-                if (result.status === 200 && result.data) {
-                    this.metParam = result.data;
-                    formContent.innerHTML = this.getFormHTML(result.data);
+                if (status === 200 && data) {
+                    this.metParam = data;
+                    formContent.innerHTML = this.getFormHTML(data);
                     this.bindNameChange();
                     this.bindFormSubmit();
                     this.bindCancel();
                 } else {
                     formContent.innerHTML = `
                         <div class="alert alert-danger">
-                            Ошибка загрузки данных. Метеопараметр не найден.<br>
-                            Статус: ${result.status}
+                            Ошибка загрузки данных. Метеопараметр не найден.
                         </div>
                     `;
                 }
             };
             loadDataAsync();
         } else {
-            // Режим создания
             const formContent = document.getElementById('form-content');
             formContent.innerHTML = this.getFormHTML();
             this.bindNameChange();
@@ -182,12 +166,9 @@ export class MetParamFormPage {
     }
 
     bindCancel() {
-        const cancelBtn = document.getElementById('cancel-btn');
-        if (cancelBtn) {
-            cancelBtn.addEventListener('click', () => {
-                this.clickBack();
-            });
-        }
+        document.getElementById('cancel-btn').addEventListener('click', () => {
+            this.clickBack();
+        });
     }
 
     clickBack() {

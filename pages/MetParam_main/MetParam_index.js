@@ -22,17 +22,16 @@ export class MainPage {
     }
 
     deleteCard(id) {
-        if (confirm('Удалить метеопараметр?')) {
-            const deleteAsync = async () => {
-                const { status } = await ajax.delete(metParamUrls.deleteMetParamById(id));
-                if (status === 204) {
-                    this.loadData();
-                } else {
-                    alert('Ошибка при удалении');
-                }
-            };
-            deleteAsync();
-        }
+        // confirm УДАЛЁН - удаляем без подтверждения
+        const deleteAsync = async () => {
+            const { status } = await ajax.delete(metParamUrls.deleteMetParamById(id));
+            if (status === 204) {
+                this.loadData();  // Просто перезагружаем список
+            } else {
+                console.error('Ошибка при удалении');
+            }
+        };
+        deleteAsync();
     }
 
     editCard(id) {
