@@ -22,15 +22,11 @@ export class MainPage {
     }
 
     deleteCard(id) {
-        if (confirm('Удалить метеопараметр?')) {
-            ajax.delete(metParamUrls.deleteMetParamById(id), (data, status) => {
-                if (status === 204) {
-                    this.loadData();
-                } else {
-                    alert('Ошибка при удалении');
-                }
-            });
-        }
+        ajax.delete(metParamUrls.deleteMetParamById(id), (data, status) => {
+            if (status === 204) {
+                this.loadData();
+            }
+        });
     }
 
     editCard(id) {
@@ -58,8 +54,6 @@ export class MainPage {
             if (status === 200) {
                 this.currentData = data;
                 this.updateGrid();
-            } else {
-                console.error('Ошибка загрузки данных');
             }
         });
     }
@@ -105,7 +99,6 @@ export class MainPage {
         this.grid = new MetParamGridComponent(gridContainer);
         this.grid.render();
 
-        // Восстановление фильтра
         if (window.searchFilterState) {
             const { searchText } = window.searchFilterState;
             this.filterComponent.setValue(searchText);

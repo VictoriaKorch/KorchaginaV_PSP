@@ -6,7 +6,7 @@ import { metParamUrls } from "../../modules/metParamUrls.js";
 export class MetParamFormPage {
     constructor(parent, id = null) {
         this.parent = parent;
-        this.id = id ? parseInt(id) : null; // null для создания, id для редактирования
+        this.id = id ? parseInt(id) : null;
         this.metParam = null;
     }
 
@@ -72,20 +72,10 @@ export class MetParamFormPage {
                     <input type="text" class="form-control" id="description" name="description" 
                            value="${data.description || ''}" required>
                 </div>
-
-                <div class="d-flex gap-2 justify-content-center mt-4">
-                    <button type="submit" class="btn btn-primary" style="min-width: 120px;">
-                        ${this.id ? 'Сохранить' : 'Создать'}
-                    </button>
-                    <button type="button" class="btn btn-secondary" id="cancel-btn" style="min-width: 120px;">
-                        Отмена
-                    </button>
-                </div>
             </form>
         `;
     }
 
-    // Обновление единицы измерения при смене названия
     bindNameChange() {
         const nameSelect = document.getElementById('name');
         const unitInput = document.getElementById('unit');
@@ -102,54 +92,14 @@ export class MetParamFormPage {
         });
     }
 
-    bindFormSubmit() {
-        const form = document.getElementById('metparam-form');
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const formData = {
-                name: document.getElementById('name').value,
-                value: parseFloat(document.getElementById('value').value),
-                unit: document.getElementById('unit').value,
-                description: document.getElementById('description').value,
-                additionalData: this.metParam?.additionalData || {}
-            };
-
-            if (this.id) {
-                // Редактирование - PATCH
-                ajax.patch(metParamUrls.updateMetParamById(this.id), formData, (data, status) => {
-                    if (status === 200) {
-                        alert('Метеопараметр обновлён!');
-                        this.clickBack();
-                    } else {
-                        alert('Ошибка при обновлении');
-                    }
-                });
-            } else {
-                // Создание - POST
-                ajax.post(metParamUrls.createMetParam(), formData, (data, status) => {
-                    if (status === 201) {
-                        alert('Метеопараметр создан!');
-                        this.clickBack();
-                    } else {
-                        alert('Ошибка при создании');
-                    }
-                });
-            }
-        });
-    }
-
     loadData() {
         if (this.id) {
-            // Режим редактирования - загружаем данные
             ajax.get(metParamUrls.getMetParamById(this.id), (data, status) => {
                 const formContent = document.getElementById('form-content');
                 if (status === 200 && data) {
                     this.metParam = data;
                     formContent.innerHTML = this.getFormHTML(data);
                     this.bindNameChange();
-                    this.bindFormSubmit();
-                    this.bindCancel();
                 } else {
                     formContent.innerHTML = `
                         <div class="alert alert-danger">
@@ -159,19 +109,10 @@ export class MetParamFormPage {
                 }
             });
         } else {
-            // Режим создания
             const formContent = document.getElementById('form-content');
             formContent.innerHTML = this.getFormHTML();
             this.bindNameChange();
-            this.bindFormSubmit();
-            this.bindCancel();
         }
-    }
-
-    bindCancel() {
-        document.getElementById('cancel-btn').addEventListener('click', () => {
-            this.clickBack();
-        });
     }
 
     clickBack() {
