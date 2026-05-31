@@ -1,6 +1,7 @@
 import { DayPage } from "../day/MetParam_index.js";
 import { MetParamGridComponent } from "../../components/MetParam_grid/MetParam_index.js";
 import { SearchFilterComponent } from "../../components/MetParam_search-filter/MetParam_index.js";
+import { HeaderComponent } from "../../components/MetParam_header/MetParam_index.js";
 import * as paramService from "../../services/MetParam_DataService.js";
 
 export class MainPage {
@@ -8,6 +9,10 @@ export class MainPage {
         this.parent = parent;
         this.grid = null;
         this.filterComponent = null;
+    }
+
+    goToMainPage() {
+        this.render();
     }
 
     clickCard(e) {
@@ -48,16 +53,15 @@ export class MainPage {
     render() {
         this.parent.innerHTML = '';
 
+        const header = new HeaderComponent(this.parent, this.goToMainPage.bind(this));
+        header.render();
+
         const wrapper = document.createElement('div');
         wrapper.className = 'min-vh-100';
         wrapper.style.background = '#f8f9fa';
         wrapper.style.padding = '40px 20px';
         wrapper.innerHTML = `
             <div class="container" style="max-width: 1200px;">
-                <div class="text-center mb-4">
-                    <h1 class="page-title">Метеопараметры</h1>
-                    <div class="mx-auto bg-secondary" style="width: 80px; height: 2px; opacity: 0.2; margin-top: 20px;"></div>
-                </div>
                 <div id="filter-container"></div>
                 <div class="text-center mb-4">
                     <button id="add-btn" class="btn btn-add">+ Добавить параметр</button>
@@ -75,7 +79,6 @@ export class MainPage {
         this.grid = new MetParamGridComponent(gridContainer);
         this.grid.render();
 
-        // Восстановление фильтра
         if (window.searchFilterState) {
             const { searchText } = window.searchFilterState;
             this.filterComponent.setValue(searchText);

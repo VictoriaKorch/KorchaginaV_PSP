@@ -1,4 +1,4 @@
-import { BackButtonComponent } from "../../components/MetParam_back-button/MetParam_index.js";
+import { HeaderComponent } from "../../components/MetParam_header/MetParam_index.js";
 import { MainPage } from "../MetParam_main/MetParam_index.js";
 
 export class DayPage {
@@ -89,24 +89,24 @@ export class DayPage {
         return `
             <div id="day-page" class="day-page">
                 <div class="container" style="max-width: 600px;">
-                    <div id="back-button-container" class="mb-4"></div>
                     <div id="day-content"></div>
                 </div>
             </div>
         `;
     }
 
-    clickBack() {
+    goToMainPage() {
         const mainPage = new MainPage(this.parent);
         mainPage.render();
     }
 
     render() {
         this.parent.innerHTML = '';
-        this.parent.insertAdjacentHTML('beforeend', this.getHTML());
         
-        const backButton = new BackButtonComponent(document.getElementById('back-button-container'));
-        backButton.render(this.clickBack.bind(this));
+        const header = new HeaderComponent(this.parent, this.goToMainPage.bind(this));
+        header.render();
+        
+        this.parent.insertAdjacentHTML('beforeend', this.getHTML());
         
         const data = this.getData();
         const dayContent = document.getElementById('day-content');
