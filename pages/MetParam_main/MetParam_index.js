@@ -2,6 +2,7 @@ import { DayPage } from "../day/MetParam_index.js";
 import { MetParamFormPage } from "../MetParam_form/MetParam_index.js";
 import { MetParamGridComponent } from "../../components/MetParam_grid/MetParam_index.js";
 import { SearchFilterComponent } from "../../components/MetParam_search-filter/MetParam_index.js";
+import { HeaderComponent } from "../../components/MetParam_header/MetParam_index.js";
 import { ajax } from "../../modules/ajax.js";
 import { metParamUrls } from "../../modules/metParamUrls.js";
 
@@ -13,6 +14,10 @@ export class MainPage {
         this.currentData = [];
     }
 
+    goToMainPage() {
+        this.render();
+    }
+
     clickCard(e) {
         const cardId = e.target.closest('.weather-card')?.dataset.id;
         if (cardId) {
@@ -22,11 +27,10 @@ export class MainPage {
     }
 
     deleteCard(id) {
-        // confirm УДАЛЁН - удаляем без подтверждения
         const deleteAsync = async () => {
             const { status } = await ajax.delete(metParamUrls.deleteMetParamById(id));
             if (status === 204) {
-                this.loadData();  // Просто перезагружаем список
+                this.loadData();
             } else {
                 console.error('Ошибка при удалении');
             }
@@ -81,16 +85,15 @@ export class MainPage {
     render() {
         this.parent.innerHTML = '';
 
+        const header = new HeaderComponent(this.parent, this.goToMainPage.bind(this));
+        header.render();
+
         const wrapper = document.createElement('div');
         wrapper.className = 'min-vh-100';
         wrapper.style.background = '#f8f9fa';
         wrapper.style.padding = '40px 20px';
         wrapper.innerHTML = `
             <div class="container" style="max-width: 1200px;">
-                <div class="text-center mb-4">
-                    <h1 class="page-title">Метеопараметры</h1>
-                    <div class="mx-auto bg-secondary" style="width: 80px; height: 2px; opacity: 0.2; margin-top: 20px;"></div>
-                </div>
                 <div id="filter-container"></div>
                 <div class="text-center mb-4">
                     <button id="add-btn" class="btn btn-add">+ Добавить параметр</button>

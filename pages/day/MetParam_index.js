@@ -1,4 +1,4 @@
-import { BackButtonComponent } from "../../components/MetParam_back-button/MetParam_index.js";
+import { HeaderComponent } from "../../components/MetParam_header/MetParam_index.js";
 import { MainPage } from "../MetParam_main/MetParam_index.js";
 import { ajax } from "../../modules/ajax.js";
 import { metParamUrls } from "../../modules/metParamUrls.js";
@@ -14,7 +14,6 @@ export class DayPage {
         return `
             <div id="day-page" class="day-page">
                 <div class="container" style="max-width: 600px;">
-                    <div id="back-button-container" class="mb-4"></div>
                     <div id="day-content">
                         <div class="text-center py-5">
                             <div class="spinner-border text-primary" role="status">
@@ -76,12 +75,10 @@ export class DayPage {
         const dayContent = document.getElementById('day-content');
         const details = this.getDetailsHTML(data);
         
-        // КНОПКА РЕДАКТИРОВАНИЯ УДАЛЕНА
         dayContent.innerHTML = `
             <div class="day-card">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <h2 class="day-title" style="color: #333">${data.name}</h2>
-                    <!-- Кнопка редактирования удалена -->
                 </div>
                 <div class="text-center mb-4">
                     <div class="day-icon">${this.getIcon(data.name)}</div>
@@ -102,22 +99,20 @@ export class DayPage {
                 ` : ''}
             </div>
         `;
-        
-        // Обработчик кнопки редактирования УДАЛЕН
     }
 
-    clickBack() {
+    goToMainPage() {
         const mainPage = new MainPage(this.parent);
         mainPage.render();
     }
 
     render() {
         this.parent.innerHTML = '';
-        this.parent.insertAdjacentHTML('beforeend', this.getHTML());
         
-        const backButtonContainer = document.getElementById('back-button-container');
-        const backButton = new BackButtonComponent(backButtonContainer);
-        backButton.render(this.clickBack.bind(this));
+        const header = new HeaderComponent(this.parent, this.goToMainPage.bind(this));
+        header.render();
+        
+        this.parent.insertAdjacentHTML('beforeend', this.getHTML());
         
         const loadData = async () => {
             const { data, status } = await ajax.get(metParamUrls.getMetParamById(this.id));

@@ -1,4 +1,4 @@
-import { BackButtonComponent } from "../../components/MetParam_back-button/MetParam_index.js";
+import { HeaderComponent } from "../../components/MetParam_header/MetParam_index.js";
 import { MainPage } from "../MetParam_main/MetParam_index.js";
 import { ajax } from "../../modules/ajax.js";
 import { metParamUrls } from "../../modules/metParamUrls.js";
@@ -15,7 +15,6 @@ export class MetParamFormPage {
         return `
             <div id="form-page" class="day-page">
                 <div class="container" style="max-width: 600px;">
-                    <div id="back-button-container" class="mb-4"></div>
                     <div class="day-card">
                         <h2 class="day-title text-center mb-4">${title}</h2>
                         <div id="form-content">
@@ -115,20 +114,16 @@ export class MetParamFormPage {
             };
 
             if (this.id) {
-                // Редактирование - PATCH (alert УДАЛЁН)
                 const { status } = await ajax.patch(metParamUrls.updateMetParamById(this.id), formData);
                 if (status === 200) {
-                    // alert УДАЛЁН - просто возвращаемся на главную
-                    this.clickBack();
+                    this.goToMainPage();
                 } else {
                     console.error('Ошибка при обновлении');
                 }
             } else {
-                // Создание - POST (alert УДАЛЁН)
                 const { status } = await ajax.post(metParamUrls.createMetParam(), formData);
                 if (status === 201) {
-                    // alert УДАЛЁН - просто возвращаемся на главную
-                    this.clickBack();
+                    this.goToMainPage();
                 } else {
                     console.error('Ошибка при создании');
                 }
@@ -167,23 +162,22 @@ export class MetParamFormPage {
 
     bindCancel() {
         document.getElementById('cancel-btn').addEventListener('click', () => {
-            this.clickBack();
+            this.goToMainPage();
         });
     }
 
-    clickBack() {
+    goToMainPage() {
         const mainPage = new MainPage(this.parent);
         mainPage.render();
     }
 
     render() {
         this.parent.innerHTML = '';
+        
+        const header = new HeaderComponent(this.parent, this.goToMainPage.bind(this));
+        header.render();
+        
         this.parent.insertAdjacentHTML('beforeend', this.getHTML());
-        
-        const backButtonContainer = document.getElementById('back-button-container');
-        const backButton = new BackButtonComponent(backButtonContainer);
-        backButton.render(this.clickBack.bind(this));
-        
         this.loadData();
     }
 }
