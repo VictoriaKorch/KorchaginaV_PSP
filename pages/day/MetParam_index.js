@@ -1,4 +1,4 @@
-import { BackButtonComponent } from "../../components/MetParam_back-button/MetParam_index.js";
+import { HeaderComponent } from "../../components/MetParam_header/MetParam_index.js";
 import { MainPage } from "../MetParam_main/MetParam_index.js";
 import { ajax } from "../../modules/ajax.js";
 import { metParamUrls } from "../../modules/metParamUrls.js";
@@ -14,7 +14,6 @@ export class DayPage {
         return `
             <div id="day-page" class="day-page">
                 <div class="container" style="max-width: 600px;">
-                    <div id="back-button-container" class="mb-4"></div>
                     <div id="day-content">
                         <div class="text-center py-5">
                             <div class="spinner-border text-primary" role="status">
@@ -100,18 +99,18 @@ export class DayPage {
         `;
     }
 
-    clickBack() {
+    goToMainPage() {
         const mainPage = new MainPage(this.parent);
         mainPage.render();
     }
 
     render() {
         this.parent.innerHTML = '';
-        this.parent.insertAdjacentHTML('beforeend', this.getHTML());
         
-        const backButtonContainer = document.getElementById('back-button-container');
-        const backButton = new BackButtonComponent(backButtonContainer);
-        backButton.render(this.clickBack.bind(this));
+        const header = new HeaderComponent(this.parent, this.goToMainPage.bind(this));
+        header.render();
+        
+        this.parent.insertAdjacentHTML('beforeend', this.getHTML());
         
         ajax.get(metParamUrls.getMetParamById(this.id), (data, status) => {
             if (status === 200 && data) {
