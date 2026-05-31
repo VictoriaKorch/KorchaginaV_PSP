@@ -14,7 +14,7 @@
   {
     "id": 2,
     "name": "Давление",
-    "value": 757,
+    "value": 755,
     "unit": "мм.рт.ст",
     "description": "Повышенное",
     "additionalData": {
@@ -54,13 +54,5 @@
       "level": "Средний",
       "protection": "SPF 15+"
     }
-  },
-  {
-    "id": 6,
-    "name": "Температура",
-    "value": 6,
-    "unit": "°C",
-    "description": "3",
-    "additionalData": {}
   }
 ]

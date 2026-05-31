@@ -9,8 +9,29 @@ const PORT = 3000;
 const DATA_FILE_PATH = path.join(__dirname, 'MetParam_data/metparams.json');
 metParamService.init(DATA_FILE_PATH);
 
-// Раздача статики (фронтенд из папки public)
+// ========== ДОБАВЬТЕ ЭТОТ БЛОК ==========
+// Настройка CSP для разработки
+app.use((req, res, next) => {
+    res.setHeader(
+        'Content-Security-Policy',
+        "default-src 'self'; " +
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://yastatic.net; " +
+        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; " +
+        "font-src 'self' data: https://fonts.gstatic.com; " +
+        "img-src 'self' data: https://yastatic.net; " +
+        "connect-src 'self' http://localhost:3000;"
+    );
+    next();
+});
+// ========================================
+
+// Раздача статики
 app.use(express.static(path.join(__dirname, '..', 'public')));
+
+// Отдаём index.html по корневому пути
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public', 'MetParam_index.html'));
+});
 
 app.use(express.json());
 
